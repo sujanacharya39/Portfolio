@@ -8,25 +8,19 @@ const heroSection = document.querySelector('.hero-section');
 // --- Navigation Scroll Effect ---
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.5)';
+        navbar.style.background = 'rgba(5, 5, 5, 0.95)';
+        navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.5)';
+        navbar.style.borderBottom = '1px solid var(--accent)';
     } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.8)';
+        navbar.style.background = 'rgba(5, 5, 5, 0.9)';
         navbar.style.boxShadow = 'none';
-    }
-    
-    // Simple parallax/fade for hero
-    const scrolled = window.scrollY;
-    if (heroSection && scrolled < 600) {
-        heroSection.style.opacity = 1 - scrolled / 800;
-        heroSection.style.transform = `translateY(${scrolled * 0.2}px)`;
+        navbar.style.borderBottom = '1px solid rgba(255, 215, 0, 0.1)';
     }
 });
 
 // --- Mobile Menu Toggle ---
 mobileToggle.addEventListener('click', () => {
     mobileMenu.classList.toggle('active');
-    // Optional: Animate icon or change icon logic here if needed
 });
 
 // Close mobile menu when clicking a link
@@ -36,7 +30,7 @@ document.querySelectorAll('.mobile-menu a').forEach(link => {
     });
 });
 
-// --- Smooth Scroll for Anchor Links (Optional enhanced) ---
+// --- Smooth Scroll ---
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -50,7 +44,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // --- Typing Effect ---
-const words = ['Web Applications', 'Digital Experiences', 'Creative Solutions'];
+const words = ['AI/ML Engineer', 'Computer Science Student', 'Vision Researcher', 'Tech Enthusiast'];
 let wordIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
@@ -60,7 +54,7 @@ const pauseSpeed = 2000;
 
 function type() {
     const currentWord = words[wordIndex];
-    
+
     if (isDeleting) {
         typingText.textContent = currentWord.substring(0, charIndex - 1);
         charIndex--;
@@ -87,21 +81,3 @@ function type() {
 document.addEventListener('DOMContentLoaded', () => {
     type();
 });
-
-// --- Intersection Observer for Scroll Animations (Fade Up) ---
-const observerOptions = {
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate-up');
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-// Add scroll-animation class to elements you want to animate
-// (You would add .scroll-hidden to CSS and toggle .scroll-visible here)
-// For this MVP, we kept it simple, but this is setup for future expansion.

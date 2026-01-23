@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Creative Developer</title>
-    <meta name="description" content="Portfolio of a creative developer specializing in building premium digital experiences.">
-    
+    <title>Sujan Acharya | AI/ML Engineer</title>
+    <meta name="description" content="Portfolio of Sujan Acharya, an AI/ML enthusiast and Computer Science student.">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#hero" class="logo">Dev<span class="accent">.</span></a>
+            <a href="#hero" class="logo">Sujan<span class="accent">.</span></a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
-                <li><a href="#projects">Work</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="mobile-toggle" id="mobile-toggle">
@@ -37,7 +39,7 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
         <a href="#about">About</a>
-        <a href="#projects">Work</a>
+        <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
     </div>
 
@@ -45,41 +47,23 @@
         <!-- Hero Section -->
         <section id="hero" class="hero-section">
             <div class="hero-content">
-                <p class="hero-greeting">Hello, I'm</p>
-                <h1 class="hero-title">Alex <span class="gradient-text">Morgan</span></h1>
-                <h2 class="hero-subtitle">I build <span id="typing-text"></span></h2>
+                <p class="hero-greeting">Welcome, I am</p>
+                <h1 class="hero-title">Sujan <span class="gradient-text">Acharya</span></h1>
+                <h2 class="hero-subtitle">I am a <span id="typing-text"></span></h2>
                 <p class="hero-bio">
-                    A creative Full Stack Developer focused on crafting accessible, 
-                    pixel-perfect, and engaging digital experiences.
+                    Computer Science Student passionate about Artificial Intelligence and Machine Learning.
+                    Building the future with Neural Networks and Vision.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#projects" class="btn btn-primary">See My Work</a>
                     <a href="#contact" class="btn btn-secondary">Contact Me</a>
                 </div>
             </div>
             <div class="hero-visual">
                 <div class="glow-orb"></div>
-                <div class="code-card glass">
-                    <div class="card-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                    </div>
-                    <div class="card-body">
-                        <code>
-                            <span class="keyword">const</span> <span class="variable">developer</span> = {<br>
-                            &nbsp;&nbsp;name: <span class="string">'Alex'</span>,<br>
-                            &nbsp;&nbsp;skills: [<span class="string">'Frontend'</span>, <span class="string">'Design'</span>],<br>
-                            &nbsp;&nbsp;hardWorker: <span class="boolean">true</span><br>
-                            };
-                        </code>
-                    </div>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
+                <!-- Abstract AI Visual -->
+                <i data-lucide="brain-circuit"
+                    style="width: 200px; height: 200px; color: var(--accent); opacity: 0.8;"></i>
             </div>
         </section>
 
@@ -90,34 +74,24 @@
                 <div class="about-grid">
                     <div class="about-text glass">
                         <p>
-                            I'm a passionate developer with a knack for creating intuitive and dynamic user interfaces. 
-                            I bridge the gap between design and engineering, ensuring every product isn't just functional, but beautiful.
+                            I am currently creating impactful solutions in <span class="highlight">Artificial
+                                Intelligence</span> and <span class="highlight">Computer Vision</span>.
+                            My journey is driven by a curiosity to understand how machines learn and perceive the world.
                         </p>
                         <p>
-                            When I'm not coding, you can find me exploring new technologies, contributing to open source, or enjoying a good cup of coffee.
+                            With a strong foundation in Computer Science, I have worked on complex projects ranging from
+                            3D scene reconstruction to automated video processing.
+                            I am constantly exploring new papers and shipping code.
                         </p>
-                        <div class="stats-row">
-                            <div class="stat-item">
-                                <span class="stat-number">3+</span>
-                                <span class="stat-label">Years Exp</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">20+</span>
-                                <span class="stat-label">Projects</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">100%</span>
-                                <span class="stat-label">Commitment</span>
-                            </div>
-                        </div>
                     </div>
                     <div class="skills-wrapper">
-                        <h3>Tech Stack</h3>
-                        <div class="skills-grid">
-                            <div class="skill-tag"><i data-lucide="layout"></i> Frontend</div>
-                            <div class="skill-tag"><i data-lucide="server"></i> Backend</div>
-                            <div class="skill-tag"><i data-lucide="database"></i> Database</div>
-                            <div class="skill-tag"><i data-lucide="figma"></i> Design</div>
+                        <h3>Core Competencies</h3>
+                        <div class="skills-grid" style="display: grid; gap: 1rem;">
+                            <!-- Adding some manually styled grid items directly for now via CSS classes -->
+                            <div class="skill-tag"><i data-lucide="cpu"></i> Machine Learning</div>
+                            <div class="skill-tag"><i data-lucide="eye"></i> Computer Vision</div>
+                            <div class="skill-tag"><i data-lucide="network"></i> Deep Learning</div>
+                            <div class="skill-tag"><i data-lucide="code"></i> Python & PyTorch</div>
                         </div>
                     </div>
                 </div>
@@ -127,112 +101,92 @@
         <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="container">
-                <h2 class="section-title">Featured Projects</h2>
+                <h2 class="section-title">Selected Works</h2>
                 <div class="projects-grid">
-                    <!-- Project Card 1 -->
-                    <article class="project-card glass">
-                        <div class="project-image">
-                            <!-- Placeholder gradient until image is set -->
-                            <div class="img-placeholder p1"></div> 
-                        </div>
+
+                    <!-- NeRF -->
+                    <article class="project-card">
                         <div class="project-content">
-                            <h3>E-Commerce Dashboard</h3>
-                            <p>A comprehensive dashboard for managing online stores with real-time analytics.</p>
+                            <i data-lucide="box" class="project-icon"></i>
+                            <h3>NeRF Implementation</h3>
+                            <p>Neural Radiance Fields for 3D scene synthesis. Reconstructed complex 3D objects from 2D
+                                image collections using deep learning.</p>
                             <div class="tech-stack">
-                                <span>React</span>
-                                <span>Node.js</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="icon-link"><i data-lucide="github"></i></a>
-                                <a href="#" class="icon-link"><i data-lucide="external-link"></i></a>
+                                <span>PyTorch</span>
+                                <span>Computer Vision</span>
+                                <span>3D Rendering</span>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Project Card 2 -->
-                    <article class="project-card glass">
-                        <div class="project-image">
-                            <div class="img-placeholder p2"></div>
-                        </div>
+                    <!-- Video Captioning -->
+                    <article class="project-card">
                         <div class="project-content">
-                            <h3>Task Management App</h3>
-                            <p>Streamlined task manager with drag-and-drop functionality and team collaboration features.</p>
+                            <i data-lucide="video" class="project-icon"></i>
+                            <h3>Video Captioning</h3>
+                            <p>An automated pipeline that generates descriptive captions for video content using
+                                sequence-to-sequence models.</p>
                             <div class="tech-stack">
-                                <span>Vue.js</span>
-                                <span>Firebase</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="icon-link"><i data-lucide="github"></i></a>
-                                <a href="#" class="icon-link"><i data-lucide="external-link"></i></a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Project Card 3 -->
-                    <article class="project-card glass">
-                        <div class="project-image">
-                            <div class="img-placeholder p3"></div>
-                        </div>
-                        <div class="project-content">
-                            <h3>AI Image Generator</h3>
-                            <p>Interface for generating custom artwork using stable diffusion models.</p>
-                            <div class="tech-stack">
+                                <span>NLP</span>
+                                <span>LSTM/Transformer</span>
                                 <span>Python</span>
-                                <span>React</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="#" class="icon-link"><i data-lucide="github"></i></a>
-                                <a href="#" class="icon-link"><i data-lucide="external-link"></i></a>
                             </div>
                         </div>
                     </article>
+
+                    <!-- MaximumIPO -->
+                    <article class="project-card">
+                        <div class="project-content">
+                            <i data-lucide="trending-up" class="project-icon"></i>
+                            <h3>MaximumIPO</h3>
+                            <p>Financial analysis tool designed to predict and maximize returns on Initial Public
+                                Offerings using historical data analysis.</p>
+                            <div class="tech-stack">
+                                <span>Data Science</span>
+                                <span>Pandas</span>
+                                <span>Scikit-Learn</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- VARAutomation -->
+                    <article class="project-card">
+                        <div class="project-content">
+                            <i data-lucide="bot" class="project-icon"></i>
+                            <h3>VARAutomation</h3>
+                            <p>Automated system for Value at Risk (VAR) calculation and reporting, streamlining
+                                financial risk assessment processes.</p>
+                            <div class="tech-stack">
+                                <span>Automation</span>
+                                <span>Finance API</span>
+                                <span>Python</span>
+                            </div>
+                        </div>
+                    </article>
+
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
         <section id="contact" class="section">
-            <div class="container">
-                <h2 class="section-title">Get In Touch</h2>
-                <div class="contact-wrapper glass">
-                    <form class="contact-form" id="contact-form">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" placeholder="John Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="john@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" rows="5" placeholder="Your message..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
-                    <div class="contact-info">
-                        <div class="info-item">
-                            <i data-lucide="mail"></i>
-                            <span>hello@alexmorgan.dev</span>
-                        </div>
-                        <div class="info-item">
-                            <i data-lucide="map-pin"></i>
-                            <span>San Francisco, CA</span>
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i data-lucide="github"></i></a>
-                            <a href="#"><i data-lucide="twitter"></i></a>
-                            <a href="#"><i data-lucide="linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
+            <div class="contact-wrapper">
+                <h2 class="section-title">Let's Connect</h2>
+                <p style="color: #ccc; margin-bottom: 2rem;">
+                    I am always open to discussing new AI projects, research opportunities, or just chatting about the
+                    latest tech.
+                </p>
+                <!-- Using a mailto link is simplest for a portfolio -->
+                <a href="mailto:contact@sujan-acharya.com.np" class="contact-button-large">
+                    <i data-lucide="mail"></i> Email Me
+                </a>
             </div>
         </section>
     </main>
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; 2026 Alex Morgan. Built with &#9829;.</p>
+            <p>&copy; 2026 Sujan Acharya. Crafted with Intelligence.</p>
         </div>
     </footer>
 
@@ -241,4 +195,5 @@
         lucide.createIcons();
     </script>
 </body>
+
 </html>
