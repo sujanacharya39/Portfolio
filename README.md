@@ -7,3 +7,4 @@ This site is configured to be hosted at [sujan-acharya.com.np](http://sujan-acha
 
 ## Deployment
 This project includes a `CNAME` file for easy configuration with GitHub Pages.
+- **Hosted on GitHub Pages**
