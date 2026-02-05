@@ -920,10 +920,61 @@
                 opacity: 0;
             }
         }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 30px;
+            right: 50px;
+            display: flex;
+            gap: 2rem;
+            z-index: 2000;
+            mix-blend-mode: exclusion;
+        }
+
+        .top-nav a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .top-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--magenta);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--magenta);
+        }
+
+        .top-nav a:hover {
+            color: var(--magenta);
+            text-shadow: 0 0 15px var(--magenta);
+        }
+
+        .top-nav a:hover::after {
+            width: 100%;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="https://github.com/sujan-acharya" target="_blank">GITHUB</a>
+        <a href="mailto:sujan.acharya@example.com">EMAIL</a>
+        <a href="#" onclick="document.querySelector('[data-door=\'6\']').click(); return false;">CONTACT</a>
+    </nav>
+
     <!-- Custom Cursor -->
     <div class="custom-cursor"></div>
     <div class="cursor-dot"></div>
@@ -935,7 +986,6 @@
     <div class="main-header">
         <h1 class="glitch-title" data-text="SUJAN ACHARYA">SUJAN ACHARYA</h1>
         <p class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</p>
-        <p class="instruction">[ CHOOSE YOUR PILL / ENTER THE MATRIX ]</p>
     </div>
 
     <!-- Door Grid -->
