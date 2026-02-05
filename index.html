@@ -1,199 +1,1089 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sujan Acharya | AI/ML Engineer</title>
-    <meta name="description" content="Portfolio of Sujan Acharya, an AI/ML enthusiast and Computer Science student.">
+    <title>Sujan Acharya | 3D Portal Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+        :root {
+            --cyan: #00ffff;
+            --magenta: #ff00ff;
+            --yellow: #ffff00;
+            --lime: #00ff00;
+            --orange: #ff6600;
+            --purple: #9933ff;
+        }
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: radial-gradient(ellipse at center, #1a0033 0%, #000000 100%);
+            color: white;
+            overflow-x: hidden;
+            perspective: 2000px;
+            cursor: none;
+        }
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease;
+            box-shadow: 0 0 20px var(--cyan);
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        /* Starfield Background */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Main Title */
+        .main-header {
+            position: relative;
+            text-align: center;
+            padding: 3rem 0;
+            z-index: 1;
+        }
+
+        .glitch-title {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 
+                    0 0 10px var(--cyan),
+                    0 0 20px var(--cyan),
+                    0 0 30px var(--cyan);
+            }
+            50% {
+                text-shadow: 
+                    0 0 20px var(--magenta),
+                    0 0 40px var(--magenta),
+                    0 0 60px var(--magenta);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            letter-spacing: 8px;
+            color: var(--cyan);
+            margin-top: 1rem;
+            font-weight: 300;
+        }
+
+        .instruction {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            color: rgba(255, 255, 255, 0.6);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Door Grid Container */
+        .door-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            max-width: 1600px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            z-index: 1;
+        }
+
+        /* Door Container */
+        .door-container {
+            position: relative;
+            height: 500px;
+            perspective: 1500px;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        /* Orbital Rings */
+        .orbital-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: rotate 10s linear infinite;
+            pointer-events: none;
+        }
+
+        .ring-1 {
+            width: 120%;
+            height: 120%;
+            border-color: var(--cyan);
+            animation-duration: 8s;
+        }
+
+        .ring-2 {
+            width: 140%;
+            height: 140%;
+            border-color: var(--magenta);
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+
+        .ring-3 {
+            width: 160%;
+            height: 160%;
+            border-color: var(--yellow);
+            animation-duration: 15s;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Door Scene */
+        .door-scene {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .door-container:hover .door-scene {
+            transform: translateZ(30px) scale(1.05);
+        }
+
+        /* Door Frame */
+        .door-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 3px solid;
+            border-radius: 10px;
+            box-shadow: 
+                inset 0 0 30px rgba(255, 255, 255, 0.1),
+                0 0 50px rgba(0, 255, 255, 0.3);
+            transform-style: preserve-3d;
+        }
+
+        .door-container:nth-child(1) .door-frame { border-color: var(--cyan); }
+        .door-container:nth-child(2) .door-frame { border-color: var(--magenta); }
+        .door-container:nth-child(3) .door-frame { border-color: var(--yellow); }
+        .door-container:nth-child(4) .door-frame { border-color: var(--lime); }
+        .door-container:nth-child(5) .door-frame { border-color: var(--orange); }
+        .door-container:nth-child(6) .door-frame { border-color: var(--purple); }
+
+        /* Door Panels */
+        .door-left, .door-right {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0033 0%, #000000 100%);
+            border: 2px solid;
+            transform-origin: center;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .door-left {
+            left: 0;
+            border-right: 1px solid;
+            transform-origin: left center;
+        }
+
+        .door-right {
+            right: 0;
+            border-left: 1px solid;
+            transform-origin: right center;
+        }
+
+        .door-container:nth-child(1) .door-left,
+        .door-container:nth-child(1) .door-right { border-color: var(--cyan); }
+        
+        .door-container:nth-child(2) .door-left,
+        .door-container:nth-child(2) .door-right { border-color: var(--magenta); }
+        
+        .door-container:nth-child(3) .door-left,
+        .door-container:nth-child(3) .door-right { border-color: var(--yellow); }
+        
+        .door-container:nth-child(4) .door-left,
+        .door-container:nth-child(4) .door-right { border-color: var(--lime); }
+        
+        .door-container:nth-child(5) .door-left,
+        .door-container:nth-child(5) .door-right { border-color: var(--orange); }
+        
+        .door-container:nth-child(6) .door-left,
+        .door-container:nth-child(6) .door-right { border-color: var(--purple); }
+
+        /* Door Open State */
+        .door-container.open .door-left {
+            transform: perspective(1200px) rotateY(-130deg);
+        }
+
+        .door-container.open .door-right {
+            transform: perspective(1200px) rotateY(130deg);
+        }
+
+        /* Door Images */
+        .door-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            filter: brightness(0.7) contrast(1.2);
+            mix-blend-mode: overlay;
+        }
+
+        /* Door Icon/Label */
+        .door-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .door-container.open .door-label {
+            opacity: 0;
+        }
+
+        .door-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px currentColor);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        .door-title {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px currentColor;
+        }
+
+        .door-container:nth-child(1) .door-icon,
+        .door-container:nth-child(1) .door-title { color: var(--cyan); }
+        
+        .door-container:nth-child(2) .door-icon,
+        .door-container:nth-child(2) .door-title { color: var(--magenta); }
+        
+        .door-container:nth-child(3) .door-icon,
+        .door-container:nth-child(3) .door-title { color: var(--yellow); }
+        
+        .door-container:nth-child(4) .door-icon,
+        .door-container:nth-child(4) .door-title { color: var(--lime); }
+        
+        .door-container:nth-child(5) .door-icon,
+        .door-container:nth-child(5) .door-title { color: var(--orange); }
+        
+        .door-container:nth-child(6) .door-icon,
+        .door-container:nth-child(6) .door-title { color: var(--purple); }
+
+        /* Content Behind Door */
+        .door-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem;
+            background: rgba(0, 0, 0, 0.95);
+            border: 3px solid;
+            border-radius: 10px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease 0.4s;
+            overflow-y: auto;
+            z-index: -1;
+        }
+
+        .door-container.open .door-content {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 5;
+        }
+
+        .door-container:nth-child(1) .door-content { 
+            border-color: var(--cyan);
+            box-shadow: inset 0 0 50px rgba(0, 255, 255, 0.2);
+        }
+        .door-container:nth-child(2) .door-content { 
+            border-color: var(--magenta);
+            box-shadow: inset 0 0 50px rgba(255, 0, 255, 0.2);
+        }
+        .door-container:nth-child(3) .door-content { 
+            border-color: var(--yellow);
+            box-shadow: inset 0 0 50px rgba(255, 255, 0, 0.2);
+        }
+        .door-container:nth-child(4) .door-content { 
+            border-color: var(--lime);
+            box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2);
+        }
+        .door-container:nth-child(5) .door-content { 
+            border-color: var(--orange);
+            box-shadow: inset 0 0 50px rgba(255, 102, 0, 0.2);
+        }
+        .door-container:nth-child(6) .door-content { 
+            border-color: var(--purple);
+            box-shadow: inset 0 0 50px rgba(153, 51, 255, 0.2);
+        }
+
+        .content-header {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            letter-spacing: 3px;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .content-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .content-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-left: 2px solid;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* Tech Tags */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-badge {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        /* Stats Grid */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        /* Close Button */
+        .close-door-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border: 3px solid;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .close-door-btn:hover {
+            transform: rotate(90deg) scale(1.2);
+            box-shadow: 0 0 30px currentColor;
+        }
+
+        /* Contact Links */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            padding: 1.2rem;
+            border: 2px solid;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px currentColor;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .glitch-title {
+                font-size: 3rem;
+                letter-spacing: 5px;
+            }
+
+            .door-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .door-container {
+                height: 450px;
+            }
+
+            .stats-container,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        .door-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .door-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .door-content::-webkit-scrollbar-thumb {
+            background: var(--cyan);
+            border-radius: 10px;
+        }
+
+        /* Loading Animation */
+        @keyframes doorAppear {
+            from {
+                opacity: 0;
+                transform: translateY(100px) rotateX(-20deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .door-container {
+            animation: doorAppear 0.8s ease-out backwards;
+        }
+
+        .door-container:nth-child(1) { animation-delay: 0.1s; }
+        .door-container:nth-child(2) { animation-delay: 0.2s; }
+        .door-container:nth-child(3) { animation-delay: 0.3s; }
+        .door-container:nth-child(4) { animation-delay: 0.4s; }
+        .door-container:nth-child(5) { animation-delay: 0.5s; }
+        .door-container:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFade 2s ease-out forwards;
+        }
+
+        @keyframes particleFade {
+            to {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-dot"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#hero" class="logo">Sujan<span class="accent">.</span></a>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="mobile-toggle" id="mobile-toggle">
-                <i data-lucide="menu"></i>
-            </div>
-        </div>
-    </nav>
+    <!-- Starfield -->
+    <div class="starfield" id="starfield"></div>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+    <!-- Main Header -->
+    <div class="main-header">
+        <h1 class="glitch-title">SUJAN ACHARYA</h1>
+        <p class="subtitle">AI ENGINEER // NEURAL ARCHITECT</p>
+        <p class="instruction">[ CLICK ANY DOOR TO ENTER THE DIMENSION ]</p>
     </div>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <p class="hero-greeting">Welcome, I am</p>
-                <h1 class="hero-title">Sujan <span class="gradient-text">Acharya</span></h1>
-                <h2 class="hero-subtitle">I am a <span id="typing-text"></span></h2>
-                <p class="hero-bio">
-                    Computer Science Student passionate about Artificial Intelligence and Machine Learning.
-                    Building the future with Neural Networks and Vision.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">See My Work</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="glow-orb"></div>
-                <!-- Abstract AI Visual -->
-                <i data-lucide="brain-circuit"
-                    style="width: 200px; height: 200px; color: var(--accent); opacity: 0.8;"></i>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <h2 class="section-title">About Me</h2>
-                <div class="about-grid">
-                    <div class="about-text glass">
-                        <p>
-                            I am currently creating impactful solutions in <span class="highlight">Artificial
-                                Intelligence</span> and <span class="highlight">Computer Vision</span>.
-                            My journey is driven by a curiosity to understand how machines learn and perceive the world.
-                        </p>
-                        <p>
-                            With a strong foundation in Computer Science, I have worked on complex projects ranging from
-                            3D scene reconstruction to automated video processing.
-                            I am constantly exploring new papers and shipping code.
-                        </p>
+    <!-- Door Grid -->
+    <div class="door-grid">
+        
+        <!-- Door 1: About Me -->
+        <div class="door-container" data-door="1">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            
+            <div class="door-scene">
+                <div class="door-frame">
+                    <div class="door-left">
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400" alt="Neural" class="door-image">
                     </div>
-                    <div class="skills-wrapper">
-                        <h3>Core Competencies</h3>
-                        <div class="skills-grid" style="display: grid; gap: 1rem;">
-                            <!-- Adding some manually styled grid items directly for now via CSS classes -->
-                            <div class="skill-tag"><i data-lucide="cpu"></i> Machine Learning</div>
-                            <div class="skill-tag"><i data-lucide="eye"></i> Computer Vision</div>
-                            <div class="skill-tag"><i data-lucide="network"></i> Deep Learning</div>
-                            <div class="skill-tag"><i data-lucide="code"></i> Python & PyTorch</div>
-                        </div>
+                    <div class="door-right">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400" alt="Brain" class="door-image">
+                    </div>
+                    
+                    <div class="door-label">
+                        <div class="door-icon">🧠</div>
+                        <div class="door-title">ABOUT</div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <div class="container">
-                <h2 class="section-title">Selected Works</h2>
-                <div class="projects-grid">
-
-                    <!-- NeRF -->
-                    <article class="project-card">
-                        <div class="project-content">
-                            <i data-lucide="box" class="project-icon"></i>
-                            <h3>NeRF Implementation</h3>
-                            <p>Neural Radiance Fields for 3D scene synthesis. Reconstructed complex 3D objects from 2D
-                                image collections using deep learning.</p>
-                            <div class="tech-stack">
-                                <span>PyTorch</span>
-                                <span>Computer Vision</span>
-                                <span>3D Rendering</span>
-                            </div>
+                <div class="door-content">
+                    <div class="close-door-btn" style="color: var(--cyan); border-color: var(--cyan);">✕</div>
+                    <h2 class="content-header" style="color: var(--cyan);">WHO AM I</h2>
+                    <p class="content-text">
+                        I'm Sujan Acharya, an AI Engineer specializing in cutting-edge machine learning solutions. 
+                        My passion lies in developing intelligent systems that transform data into actionable insights 
+                        and solve complex real-world problems.
+                    </p>
+                    <p class="content-text">
+                        With extensive experience in deep learning, neural networks, and AI deployment, I bridge 
+                        the gap between theoretical AI research and practical business applications.
+                    </p>
+                    <div class="stats-container">
+                        <div class="stat-box" style="border-color: var(--cyan);">
+                            <span class="stat-number" style="color: var(--cyan);">5+</span>
+                            <span class="stat-label">Years Experience</span>
                         </div>
-                    </article>
-
-                    <!-- Video Captioning -->
-                    <article class="project-card">
-                        <div class="project-content">
-                            <i data-lucide="video" class="project-icon"></i>
-                            <h3>Video Captioning</h3>
-                            <p>An automated pipeline that generates descriptive captions for video content using
-                                sequence-to-sequence models.</p>
-                            <div class="tech-stack">
-                                <span>NLP</span>
-                                <span>LSTM/Transformer</span>
-                                <span>Python</span>
-                            </div>
+                        <div class="stat-box" style="border-color: var(--cyan);">
+                            <span class="stat-number" style="color: var(--cyan);">60+</span>
+                            <span class="stat-label">AI Projects</span>
                         </div>
-                    </article>
-
-                    <!-- MaximumIPO -->
-                    <article class="project-card">
-                        <div class="project-content">
-                            <i data-lucide="trending-up" class="project-icon"></i>
-                            <h3>MaximumIPO</h3>
-                            <p>Financial analysis tool designed to predict and maximize returns on Initial Public
-                                Offerings using historical data analysis.</p>
-                            <div class="tech-stack">
-                                <span>Data Science</span>
-                                <span>Pandas</span>
-                                <span>Scikit-Learn</span>
-                            </div>
+                        <div class="stat-box" style="border-color: var(--cyan);">
+                            <span class="stat-number" style="color: var(--cyan);">25+</span>
+                            <span class="stat-label">Models Deployed</span>
                         </div>
-                    </article>
-
-                    <!-- VARAutomation -->
-                    <article class="project-card">
-                        <div class="project-content">
-                            <i data-lucide="bot" class="project-icon"></i>
-                            <h3>VARAutomation</h3>
-                            <p>Automated system for Value at Risk (VAR) calculation and reporting, streamlining
-                                financial risk assessment processes.</p>
-                            <div class="tech-stack">
-                                <span>Automation</span>
-                                <span>Finance API</span>
-                                <span>Python</span>
-                            </div>
+                        <div class="stat-box" style="border-color: var(--cyan);">
+                            <span class="stat-number" style="color: var(--cyan);">97%</span>
+                            <span class="stat-label">Success Rate</span>
                         </div>
-                    </article>
-
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section">
-            <div class="contact-wrapper">
-                <h2 class="section-title">Let's Connect</h2>
-                <p style="color: #ccc; margin-bottom: 2rem;">
-                    I am always open to discussing new AI projects, research opportunities, or just chatting about the
-                    latest tech.
-                </p>
-                <!-- Using a mailto link is simplest for a portfolio -->
-                <a href="mailto:acharyasujan104@gmail.com" class="contact-button-large">
-                    <i data-lucide="mail"></i> Email Me
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container footer-content">
-            <p>&copy; 2026 Sujan Acharya. Crafted with Intelligence.</p>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <!-- Door 2: Deep Learning -->
+        <div class="door-container" data-door="2">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            
+            <div class="door-scene">
+                <div class="door-frame">
+                    <div class="door-left">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400" alt="AI" class="door-image">
+                    </div>
+                    <div class="door-right">
+                        <img src="https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=400" alt="Network" class="door-image">
+                    </div>
+                    
+                    <div class="door-label">
+                        <div class="door-icon">🔥</div>
+                        <div class="door-title">DEEP LEARNING</div>
+                    </div>
+                </div>
+
+                <div class="door-content">
+                    <div class="close-door-btn" style="color: var(--magenta); border-color: var(--magenta);">✕</div>
+                    <h2 class="content-header" style="color: var(--magenta);">NEURAL NETWORKS MASTERY</h2>
+                    <p class="content-text">
+                        Expert in designing, training, and optimizing state-of-the-art neural network architectures 
+                        for complex problem-solving across multiple domains.
+                    </p>
+                    <ul class="content-list">
+                        <li style="border-color: var(--magenta); color: var(--magenta);">
+                            <strong>CNNs:</strong> Convolutional Neural Networks for image processing and computer vision
+                        </li>
+                        <li style="border-color: var(--magenta); color: var(--magenta);">
+                            <strong>RNNs & LSTMs:</strong> Recurrent networks for sequential data and time series
+                        </li>
+                        <li style="border-color: var(--magenta); color: var(--magenta);">
+                            <strong>Transformers:</strong> Attention-based architectures for NLP and vision tasks
+                        </li>
+                        <li style="border-color: var(--magenta); color: var(--magenta);">
+                            <strong>GANs:</strong> Generative models for synthetic data creation
+                        </li>
+                        <li style="border-color: var(--magenta); color: var(--magenta);">
+                            <strong>AutoEncoders:</strong> Dimensionality reduction and feature learning
+                        </li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">TensorFlow</span>
+                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">PyTorch</span>
+                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">Keras</span>
+                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">JAX</span>
+                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">CUDA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Door 3: Computer Vision -->
+        <div class="door-container" data-door="3">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            
+            <div class="door-scene">
+                <div class="door-frame">
+                    <div class="door-left">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400" alt="Vision" class="door-image">
+                    </div>
+                    <div class="door-right">
+                        <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=400" alt="Eye" class="door-image">
+                    </div>
+                    
+                    <div class="door-label">
+                        <div class="door-icon">👁️</div>
+                        <div class="door-title">VISION AI</div>
+                    </div>
+                </div>
+
+                <div class="door-content">
+                    <div class="close-door-btn" style="color: var(--yellow); border-color: var(--yellow);">✕</div>
+                    <h2 class="content-header" style="color: var(--yellow);">COMPUTER VISION EXPERT</h2>
+                    <p class="content-text">
+                        Building advanced computer vision systems that perceive, understand, and interpret 
+                        visual information with superhuman accuracy and speed.
+                    </p>
+                    <ul class="content-list">
+                        <li style="border-color: var(--yellow); color: var(--yellow);">
+                            <strong>Object Detection:</strong> Real-time detection using YOLO, SSD, and R-CNN
+                        </li>
+                        <li style="border-color: var(--yellow); color: var(--yellow);">
+                            <strong>Image Segmentation:</strong> Semantic and instance segmentation with U-Net
+                        </li>
+                        <li style="border-color: var(--yellow); color: var(--yellow);">
+                            <strong>Face Recognition:</strong> Biometric identification systems
+                        </li>
+                        <li style="border-color: var(--yellow); color: var(--yellow);">
+                            <strong>OCR Systems:</strong> Text extraction from images and documents
+                        </li>
+                        <li style="border-color: var(--yellow); color: var(--yellow);">
+                            <strong>Medical Imaging:</strong> Disease detection from X-rays and MRI scans
+                        </li>
+                        <li style="border-color: var(--yellow); color: var(--yellow);">
+                            <strong>Style Transfer:</strong> Artistic AI and image generation
+                        </li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">OpenCV</span>
+                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">YOLO</span>
+                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">ResNet</span>
+                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">EfficientNet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Door 4: NLP & LLMs -->
+        <div class="door-container" data-door="4">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            
+            <div class="door-scene">
+                <div class="door-frame">
+                    <div class="door-left">
+                        <img src="https://images.unsplash.com/photo-1676277791608-ac522707146d?w=400" alt="Language" class="door-image">
+                    </div>
+                    <div class="door-right">
+                        <img src="https://images.unsplash.com/photo-1675271591471-0b8f47d02271?w=400" alt="Chat" class="door-image">
+                    </div>
+                    
+                    <div class="door-label">
+                        <div class="door-icon">💬</div>
+                        <div class="door-title">NLP & LLMs</div>
+                    </div>
+                </div>
+
+                <div class="door-content">
+                    <div class="close-door-btn" style="color: var(--lime); border-color: var(--lime);">✕</div>
+                    <h2 class="content-header" style="color: var(--lime);">LANGUAGE AI ARCHITECT</h2>
+                    <p class="content-text">
+                        Creating intelligent language models and conversational AI systems that understand 
+                        context, generate human-like text, and process natural language with precision.
+                    </p>
+                    <ul class="content-list">
+                        <li style="border-color: var(--lime); color: var(--lime);">
+                            <strong>LLM Development:</strong> Fine-tuning GPT, BERT, and T5 models
+                        </li>
+                        <li style="border-color: var(--lime); color: var(--lime);">
+                            <strong>Chatbots & Assistants:</strong> Context-aware conversational agents
+                        </li>
+                        <li style="border-color: var(--lime); color: var(--lime);">
+                            <strong>Sentiment Analysis:</strong> Emotion detection from text data
+                        </li>
+                        <li style="border-color: var(--lime); color: var(--lime);">
+                            <strong>NER:</strong> Named Entity Recognition and extraction
+                        </li>
+                        <li style="border-color: var(--lime); color: var(--lime);">
+                            <strong>Text Summarization:</strong> Automatic content condensation
+                        </li>
+                        <li style="border-color: var(--lime); color: var(--lime);">
+                            <strong>Machine Translation:</strong> Multi-language neural translation
+                        </li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">GPT-4</span>
+                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">BERT</span>
+                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">LangChain</span>
+                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">Hugging Face</span>
+                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">spaCy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Door 5: Projects -->
+        <div class="door-container" data-door="5">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            
+            <div class="door-scene">
+                <div class="door-frame">
+                    <div class="door-left">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400" alt="Projects" class="door-image">
+                    </div>
+                    <div class="door-right">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400" alt="Tech" class="door-image">
+                    </div>
+                    
+                    <div class="door-label">
+                        <div class="door-icon">🚀</div>
+                        <div class="door-title">PROJECTS</div>
+                    </div>
+                </div>
+
+                <div class="door-content">
+                    <div class="close-door-btn" style="color: var(--orange); border-color: var(--orange);">✕</div>
+                    <h2 class="content-header" style="color: var(--orange);">FEATURED WORK</h2>
+                    <ul class="content-list">
+                        <li style="border-color: var(--orange); color: var(--orange);">
+                            <strong>AI Medical Diagnosis System:</strong> Deep learning model achieving 96.3% accuracy 
+                            in detecting multiple diseases from X-rays and MRI scans. Deployed in 3 hospitals.
+                        </li>
+                        <li style="border-color: var(--orange); color: var(--orange);">
+                            <strong>Real-time Object Detection Pipeline:</strong> Custom YOLO implementation processing 
+                            65 FPS for autonomous vehicle navigation and obstacle detection.
+                        </li>
+                        <li style="border-color: var(--orange); color: var(--orange);">
+                            <strong>Multilingual Chatbot Platform:</strong> LLM-powered conversational AI supporting 
+                            20+ languages with context memory and personalization.
+                        </li>
+                        <li style="border-color: var(--orange); color: var(--orange);">
+                            <strong>Predictive Analytics Engine:</strong> Time-series forecasting system predicting 
+                            equipment failures 12 days in advance with 89% precision.
+                        </li>
+                        <li style="border-color: var(--orange); color: var(--orange);">
+                            <strong>Content Moderation AI:</strong> NLP system processing 150K+ posts per hour, 
+                            filtering harmful content with 95% accuracy.
+                        </li>
+                        <li style="border-color: var(--orange); color: var(--orange);">
+                            <strong>Facial Recognition Security:</strong> Biometric authentication system with 
+                            99.2% accuracy and anti-spoofing capabilities.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Door 6: Contact -->
+        <div class="door-container" data-door="6">
+            <div class="orbital-ring ring-1"></div>
+            <div class="orbital-ring ring-2"></div>
+            <div class="orbital-ring ring-3"></div>
+            
+            <div class="door-scene">
+                <div class="door-frame">
+                    <div class="door-left">
+                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400" alt="Contact" class="door-image">
+                    </div>
+                    <div class="door-right">
+                        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400" alt="Connect" class="door-image">
+                    </div>
+                    
+                    <div class="door-label">
+                        <div class="door-icon">📡</div>
+                        <div class="door-title">CONNECT</div>
+                    </div>
+                </div>
+
+                <div class="door-content">
+                    <div class="close-door-btn" style="color: var(--purple); border-color: var(--purple);">✕</div>
+                    <h2 class="content-header" style="color: var(--purple);">LET'S BUILD THE FUTURE</h2>
+                    <p class="content-text">
+                        Looking for AI consultation, collaboration, or full-time opportunities? 
+                        I'm available for freelance projects, research partnerships, and innovative ventures.
+                    </p>
+                    <p class="content-text">
+                        <strong>Specialties:</strong> AI Strategy, ML Model Development, Computer Vision Solutions, 
+                        NLP Applications, AI Integration, Technical Consulting
+                    </p>
+                    <div class="contact-grid">
+                        <a href="mailto:sujan.acharya@example.com" class="contact-link" 
+                           style="color: var(--purple); border-color: var(--purple);">
+                            📧 EMAIL
+                        </a>
+                        <a href="https://linkedin.com/in/sujan-acharya" class="contact-link" 
+                           style="color: var(--cyan); border-color: var(--cyan);">
+                            💼 LINKEDIN
+                        </a>
+                        <a href="https://github.com/sujan-acharya" class="contact-link" 
+                           style="color: var(--lime); border-color: var(--lime);">
+                            💻 GITHUB
+                        </a>
+                        <a href="https://twitter.com/sujan_ai" class="contact-link" 
+                           style="color: var(--magenta); border-color: var(--magenta);">
+                            🐦 TWITTER
+                        </a>
+                    </div>
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 10px;">
+                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>📍 Location:</strong> Available Worldwide (Remote)</p>
+                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>⏱️ Response:</strong> Within 24 hours</p>
+                        <p style="font-size: 1rem;"><strong>🌐 Time Zone:</strong> Flexible</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <script>
-        lucide.createIcons();
+        // Custom Cursor
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Starfield Generation
+        const starfield = document.getElementById('starfield');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starfield.appendChild(star);
+        }
+
+        // Door Interaction
+        const doors = document.querySelectorAll('.door-container');
+
+        doors.forEach(door => {
+            const closeBtn = door.querySelector('.close-door-btn');
+            const doorScene = door.querySelector('.door-scene');
+
+            door.addEventListener('click', function(e) {
+                // Don't open if clicking close button
+                if (e.target === closeBtn || closeBtn.contains(e.target)) {
+                    return;
+                }
+
+                // Close all other doors
+                doors.forEach(otherDoor => {
+                    if (otherDoor !== door) {
+                        otherDoor.classList.remove('open');
+                    }
+                });
+
+                // Toggle current door
+                this.classList.toggle('open');
+
+                // Create particle effect
+                createParticles(e.clientX, e.clientY);
+            });
+
+            // Close button
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                door.classList.remove('open');
+            });
+        });
+
+        // Particle Effect
+        function createParticles(x, y) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 2000);
+            }
+        }
+
+        // Close doors on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                doors.forEach(door => door.classList.remove('open'));
+            }
+        });
+
+        // 3D Mouse Move Effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            doors.forEach((door, index) => {
+                if (!door.classList.contains('open')) {
+                    const scene = door.querySelector('.door-scene');
+                    const rotateY = mouseX * 15;
+                    const rotateX = -mouseY * 15;
+                    
+                    scene.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+                }
+            });
+        });
+
+        // Cursor scale on hover
+        doors.forEach(door => {
+            door.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                cursor.style.borderColor = 'var(--magenta)';
+            });
+            door.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = 'var(--cyan)';
+            });
+        });
+
+        // Random image rotation on load
+        function randomizeImages() {
+            const images = document.querySelectorAll('.door-image');
+            images.forEach(img => {
+                img.style.transform = `scale(${1 + Math.random() * 0.2}) rotate(${Math.random() * 10 - 5}deg)`;
+            });
+        }
+
+        randomizeImages();
+        setInterval(randomizeImages, 5000);
     </script>
 </body>
-
 </html>
