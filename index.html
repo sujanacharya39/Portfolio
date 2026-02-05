@@ -53,6 +53,21 @@
             pointer-events: auto;
             border-left: 5px solid #d4af37;
             padding-left: 20px;
+            animation: floatGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes floatGlow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            }
+
+            50% {
+                transform: translateY(-15px);
+                filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8));
+            }
         }
 
         h1 {
@@ -60,12 +75,19 @@
             font-size: 3.5rem;
             font-weight: 900;
             color: transparent;
-            background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
+            background: linear-gradient(to bottom, #fff 0%, #ffd700 20%, #cfc09f 40%, #634f2c 60%, #ffd700 80%, #fff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
             letter-spacing: 5px;
+            background-size: 200% auto;
+            animation: shine 5s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
         }
 
         .subtitle {
@@ -75,34 +97,48 @@
             text-transform: uppercase;
             margin-top: 5px;
             font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        /* Top Right Links */
+        /* Top Right Links (Icons) */
         .nav-bar {
             position: absolute;
             top: 40px;
             right: 40px;
             display: flex;
-            gap: 30px;
+            gap: 20px;
             pointer-events: auto;
         }
 
-        .nav-link {
-            font-family: 'Cinzel', serif;
-            color: #ffd700;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 700;
+        .nav-icon {
+            width: 50px;
+            height: 50px;
             border: 1px solid #d4af37;
-            padding: 10px 20px;
-            transition: 0.3s;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .nav-link:hover {
+        .nav-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #d4af37;
+            transition: 0.3s;
+        }
+
+        .nav-icon:hover {
             background: #d4af37;
-            color: #000;
-            box-shadow: 0 0 20px #d4af37;
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 0 30px #d4af37;
+        }
+
+        .nav-icon:hover svg {
+            fill: #000;
         }
 
         /* Info Card (Gold Card) */
@@ -121,6 +157,7 @@
             pointer-events: auto;
             box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
             border-radius: 10px;
+            backdrop-filter: blur(10px);
         }
 
         #info-card.active {
@@ -129,12 +166,13 @@
 
         #card-title {
             font-family: 'Cinzel', serif;
-            font-size: 2/5rem;
+            font-size: 2.5rem;
             color: #ffd700;
             margin-bottom: 10px;
             border-bottom: 1px solid #d4af37;
             padding-bottom: 10px;
             display: inline-block;
+            text-shadow: 0 0 10px #d4af37;
         }
 
         #card-desc {
@@ -154,6 +192,12 @@
             font-weight: bold;
             font-size: 0.9rem;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .skill-pill:hover {
+            transform: scale(1.1);
+            background: #fff;
         }
 
         #close-card {
@@ -163,6 +207,12 @@
             color: #d4af37;
             cursor: pointer;
             font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        #close-card:hover {
+            transform: rotate(90deg);
+            color: #fff;
         }
 
         /* Tip */
@@ -172,6 +222,13 @@
             right: 40px;
             color: rgba(255, 215, 0, 0.5);
             font-size: 0.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: 0.3;
+            }
         }
     </style>
     <!-- Three.js -->
@@ -193,8 +250,20 @@
         </header>
 
         <nav class="nav-bar">
-            <a href="https://github.com/sujan-acharya" class="nav-link" target="_blank">GITHUB</a>
-            <a href="mailto:sujan.acharya@example.com" class="nav-link">EMAIL</a>
+            <!-- GitHub Icon -->
+            <a href="https://github.com/sujan-acharya" class="nav-icon" target="_blank" title="GitHub">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+            </a>
+            <!-- Email Icon -->
+            <a href="mailto:sujan.acharya@example.com" class="nav-icon" title="Email">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-11.174l4.623 5.462zm5.377 2.738l-5.364-6.338 11.364 13.671h-21.995l5.995-7.333zm5.378-2.738l4.622-5.461v11.175l-4.622-5.714zm-1.696-2.014l-5.682 6.716-5.682-6.716-5.941 7.086v-13h23.246v13l-5.941-7.086z" />
+                </svg>
+            </a>
         </nav>
 
         <div id="info-card">
@@ -204,7 +273,7 @@
             <div id="card-skills"></div>
         </div>
 
-        <div class="tip">DRAG TO ROTATE • CLICK COINS FOR DETAILS</div>
+        <div class="tip">DRAG TO ROTATE • FOLLOW THE LIGHT</div>
     </div>
 
     <div id="canvas-coontainer"></div>
@@ -222,61 +291,18 @@
 
         // --- Data ---
         const items = [
-            {
-                id: 'skills',
-                emoji: '⚡',
-                name: 'CORE SKILLS',
-                desc: 'My technical arsenal for building advanced AI systems.',
-                tags: ['C++', 'Django', 'Machine Learning', 'Data Science', 'Python']
-            },
-            {
-                id: 'nerf',
-                emoji: '🤖',
-                name: 'NeRF Engine',
-                desc: 'Neural Radiance Fields. 3D scene reconstruction from photos using deep learning.',
-                tags: ['PyTorch', '3D Vision']
-            },
-            {
-                id: 'ipo',
-                emoji: '📈',
-                name: 'MaximumIPO',
-                desc: 'Stock market prediction using LSTMs to analyze IPO trends.',
-                tags: ['FinTech', 'Time Series']
-            },
-            {
-                id: 'video',
-                emoji: '🎬',
-                name: 'Video Captioning',
-                desc: 'Generating real-time captions for video content using NLP.',
-                tags: ['Transformers', 'OpenCV']
-            },
-            {
-                id: 'med',
-                emoji: '💊',
-                name: 'Medicine Rec',
-                desc: 'AI-powered pill identification and dosage assistant.',
-                tags: ['Healthcare', 'CNN']
-            },
-            {
-                id: 'var',
-                emoji: '⚙️',
-                name: 'VAR Automation',
-                desc: 'Industrial automation and anomaly detection systems.',
-                tags: ['Automation', 'Robotics']
-            },
-            {
-                id: 'contact',
-                emoji: '🤙',
-                name: 'Contact Me',
-                desc: 'Let\'s build something legendary together.',
-                tags: ['Email', 'Collaboration']
-            }
+            { id: 'skills', emoji: '⚡', name: 'CORE SKILLS', desc: 'My technical arsenal.', tags: ['C++', 'Django', 'ML', 'Data Science', 'Python'] },
+            { id: 'nerf', emoji: '🤖', name: 'NeRF Engine', desc: 'Neural Radiance Fields reconstruction.', tags: ['PyTorch', '3D Vision'] },
+            { id: 'ipo', emoji: '📈', name: 'MaximumIPO', desc: 'IPO Stock market prediction.', tags: ['FinTech', 'Time Series'] },
+            { id: 'video', emoji: '🎬', name: 'Video Captioning', desc: 'Real-time video captioning AI.', tags: ['Transformers', 'OpenCV'] },
+            { id: 'med', emoji: '💊', name: 'Medicine Rec', desc: 'Pill ID and dosage assistant.', tags: ['Healthcare', 'CNN'] },
+            { id: 'var', emoji: '⚙️', name: 'VAR Automation', desc: 'System anomaly detection.', tags: ['Automation', 'Robotics'] },
+            { id: 'contact', emoji: '🤙', name: 'Contact Me', desc: 'Collaborate with me.', tags: ['Email', 'Collaboration'] }
         ];
 
         // --- Init ---
         const container = document.getElementById('canvas-coontainer');
         const scene = new THREE.Scene();
-        // Fog for atmosphere
         scene.fog = new THREE.FogExp2(0x111100, 0.02);
 
         const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -288,6 +314,7 @@
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         container.appendChild(renderer.domElement);
 
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -295,121 +322,106 @@
         controls.autoRotate = true;
         controls.autoRotateSpeed = 0.5;
 
-        // --- Lighting (Warm Gold) ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        // --- Lighting (Interactive) ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
         scene.add(ambientLight);
 
-        const spotLight = new THREE.SpotLight(0xffd700, 200);
-        spotLight.position.set(10, 20, 10);
-        spotLight.castShadow = true;
-        scene.add(spotLight);
+        // Dynamic Spotlight (Follows Mouse)
+        const mouseLight = new THREE.SpotLight(0xffd700, 400);
+        mouseLight.position.set(0, 20, 20);
+        mouseLight.angle = Math.PI / 6;
+        mouseLight.penumbra = 0.5;
+        mouseLight.decay = 1;
+        mouseLight.distance = 100;
+        mouseLight.castShadow = true;
+        scene.add(mouseLight);
+        scene.add(mouseLight.target);
 
-        const pointLight = new THREE.PointLight(0xffaa00, 10, 50);
-        pointLight.position.set(-10, -10, 5);
-        scene.add(pointLight);
+        // Backlight
+        const rimLight = new THREE.SpotLight(0xffaa00, 200);
+        rimLight.position.set(0, 10, -20);
+        scene.add(rimLight);
 
         // --- Materials ---
         const goldMaterial = new THREE.MeshStandardMaterial({
             color: 0xffd700,
             metalness: 1.0,
-            roughness: 0.3,
-            envMapIntensity: 1.0
+            roughness: 0.2,
+            envMapIntensity: 2.0
         });
 
         const sideMaterial = new THREE.MeshStandardMaterial({
             color: 0xb8860b,
             metalness: 1.0,
-            roughness: 0.2,
+            roughness: 0.1,
             flatShading: true
         });
 
-        // --- Helper: Create Emoji Texture ---
+        // --- Coins ---
         function createEmojiTexture(emoji) {
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 512;
             const ctx = canvas.getContext('2d');
-
-            // Gold Background for face
             const grad = ctx.createRadialGradient(256, 256, 50, 256, 256, 256);
-            grad.addColorStop(0, '#ffd700');
-            grad.addColorStop(1, '#b8860b');
+            grad.addColorStop(0, '#fffacd');
+            grad.addColorStop(1, '#daa520');
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, 512, 512);
-
-            // Emoji
             ctx.font = '300px serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = '#000'; // Emboss effect (simplified as black)
-            ctx.fillText(emoji, 256, 280); // Offset for better centering?
-
-            // Ring
-            ctx.lineWidth = 20;
-            ctx.strokeStyle = '#634f2c';
+            ctx.fillStyle = '#000';
+            ctx.fillText(emoji, 256, 280);
+            ctx.lineWidth = 15;
+            ctx.strokeStyle = '#8b4513';
             ctx.beginPath();
             ctx.arc(256, 256, 240, 0, Math.PI * 2);
             ctx.stroke();
-
             const tex = new THREE.CanvasTexture(canvas);
             tex.colorSpace = THREE.SRGBColorSpace;
             return tex;
         }
 
-        // --- Create Coins ---
         const coins = [];
         const group = new THREE.Group();
         scene.add(group);
 
-        const count = items.length;
-        const radius = 9; // Radius of layout
-
         items.forEach((item, i) => {
-            const angle = (i / count) * Math.PI * 2;
+            const angle = (i / items.length) * Math.PI * 2;
+            const x = Math.cos(angle) * config.orbitRadius;
+            const z = Math.sin(angle) * config.orbitRadius;
 
-            const x = Math.cos(angle) * radius;
-            const z = Math.sin(angle) * radius;
-
-            // Texture
             const faceTex = createEmojiTexture(item.emoji);
-            const faceMat = new THREE.MeshStandardMaterial({
-                map: faceTex,
-                metalness: 0.5,
-                roughness: 0.1
-            });
-
-            // Geometry: Cylinder
-            // RadiusTop, RadiusBottom, Height, Segments
+            const faceMat = new THREE.MeshStandardMaterial({ map: faceTex, metalness: 0.6, roughness: 0.1 });
             const geometry = new THREE.CylinderGeometry(config.coinRadius, config.coinRadius, config.coinThick, 64);
-            // rotate geometry to face outward
             geometry.rotateX(Math.PI / 2);
 
-            // [Side, Face, Face]
             const mesh = new THREE.Mesh(geometry, [sideMaterial, faceMat, faceMat]);
-
             mesh.position.set(x, 0, z);
-            mesh.lookAt(0, 0, 0); // Face center
+            mesh.lookAt(0, 0, 0);
+            mesh.userData = { id: item.id, data: item, basePos: new THREE.Vector3(x, 0, z) };
 
-            mesh.userData = { id: item.id, data: item };
             group.add(mesh);
             coins.push(mesh);
         });
 
-        // --- Gold Dust Particles ---
+        // --- Particles ---
         const particlesGeo = new THREE.BufferGeometry();
-        const pCount = 2000;
+        const pCount = 3000;
         const pPos = new Float32Array(pCount * 3);
-        const pMat = new THREE.PointsMaterial({
-            color: 0xffd700,
-            size: 0.1,
-            transparent: true,
-            opacity: 0.6
-        });
+        const pVel = []; // Velocities
 
         for (let i = 0; i < pCount * 3; i++) {
-            pPos[i] = (Math.random() - 0.5) * 40;
+            pPos[i] = (Math.random() - 0.5) * 50;
+            if (i % 3 === 0) pVel.push({
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            });
         }
         particlesGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ color: 0xffd700, size: 0.15, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
         const particleSystem = new THREE.Points(particlesGeo, pMat);
         scene.add(particleSystem);
 
@@ -417,56 +429,78 @@
         // --- Interaction ---
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
+        const targetLightPos = new THREE.Vector3();
 
-        window.addEventListener('click', onMouseClick);
-        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-        function onMouseMove(event) {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        }
+            // Move Light Logic
+            // Project mouse to 3D plane
+            const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+            vec.unproject(camera);
+            const dir = vec.sub(camera.position).normalize();
+            const distance = -camera.position.z / dir.z;
+            const pos = camera.position.clone().add(dir.multiplyScalar(distance));
 
-        function onMouseClick(event) {
+            // Limit light movement
+            targetLightPos.copy(pos).multiplyScalar(0.5); // Dampen movement
+            targetLightPos.y += 10; // Keep height
+        });
+
+        window.addEventListener('click', () => {
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(coins);
-
             if (intersects.length > 0) {
-                const item = intersects[0].object.userData.data;
-                showCard(item);
+                showCard(intersects[0].object.userData.data);
             }
-        }
+        });
 
         function showCard(item) {
-            const card = document.getElementById('info-card');
             document.getElementById('card-title').textContent = item.name;
             document.getElementById('card-desc').textContent = item.desc;
-
-            const skillsDiv = document.getElementById('card-skills');
-            skillsDiv.innerHTML = item.tags.map(t => `<span class="skill-pill">${t}</span>`).join('');
-
-            card.classList.add('active');
-            controls.autoRotate = false; // Stop rotating so they can read
+            document.getElementById('card-skills').innerHTML = item.tags.map(t => `<span class="skill-pill">${t}</span>`).join('');
+            document.getElementById('info-card').classList.add('active');
+            controls.autoRotate = false;
         }
 
         window.closeCard = function () {
             document.getElementById('info-card').classList.remove('active');
-            controls.autoRotate = true; // Resume
+            controls.autoRotate = true;
         }
 
-
-        // --- Animation ---
+        // --- Animation Loop ---
         function animate() {
             requestAnimationFrame(animate);
-
             controls.update();
 
-            // Rotate coins locally
+            // Light smooth follow
+            mouseLight.position.lerp(targetLightPos, 0.1);
+            mouseLight.target.position.lerp(new THREE.Vector3(targetLightPos.x, 0, targetLightPos.z), 0.1);
+
+            // Coins
             coins.forEach(coin => {
-                coin.rotation.z += 0.01; // Spin face
+                coin.rotation.z += 0.01;
+
+                // Tilt towards mouse if near?
+                // For now just bobbing
+                coin.position.y = Math.sin(Date.now() * 0.002 + coin.userData.basePos.x) * 0.5;
             });
 
-            // Float particles
-            particleSystem.rotation.y += 0.001;
+            // Particles
+            const positions = particleSystem.geometry.attributes.position.array;
+            for (let i = 0; i < pCount; i++) {
+                const i3 = i * 3;
+                positions[i3] += pVel[i].x;
+                positions[i3 + 1] += pVel[i].y;
+                positions[i3 + 2] += pVel[i].z;
+
+                if (positions[i3] > 25) positions[i3] = -25;
+                if (positions[i3] < -25) positions[i3] = 25;
+                if (positions[i3 + 1] > 25) positions[i3 + 1] = -25;
+                if (positions[i3 + 1] < -25) positions[i3 + 1] = 25;
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
 
             renderer.render(scene, camera);
         }
@@ -478,7 +512,6 @@
         });
 
         animate();
-
     </script>
 </body>
 
