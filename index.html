@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sujan Acharya | Neural Universe</title>
+    <title>Sujan Acharya | Golden Vault</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;500;700&display=swap"
         rel="stylesheet">
     <style>
         * {
@@ -18,9 +18,10 @@
 
         body {
             overflow: hidden;
-            background-color: #000;
-            font-family: 'Rajdhani', sans-serif;
-            color: #fff;
+            background-color: #050505;
+            font-family: 'Montserrat', sans-serif;
+            color: #d4af37;
+            /* Gold */
         }
 
         #canvas-coontainer {
@@ -30,6 +31,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            background: radial-gradient(circle at center, #1a1a00 0%, #000000 100%);
         }
 
         /* --- UI Overlay --- */
@@ -41,289 +43,138 @@
             height: 100%;
             z-index: 10;
             pointer-events: none;
-            /* Let clicks pass through to 3D */
-            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 120%);
         }
 
-        /* Header / Identity */
+        /* Header */
         .header {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            opacity: 1;
-            transition: all 1s ease;
+            top: 40px;
+            left: 40px;
             pointer-events: auto;
-        }
-
-        .header.minimized {
-            top: 50px;
-            left: 50px;
-            transform: translate(0, 0);
-            text-align: left;
-            scale: 0.7;
+            border-left: 5px solid #d4af37;
+            padding-left: 20px;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 6rem;
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
             font-weight: 900;
-            letter-spacing: 15px;
-            color: #fff;
+            color: transparent;
+            background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-transform: uppercase;
-            /* Heavy Glow on Letters */
-            text-shadow:
-                0 0 10px #0ff,
-                0 0 20px #0ff,
-                0 0 40px #0ff,
-                0 0 80px #00f,
-                0 0 120px #00f;
-            animation: textPulse 3s infinite alternate;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+            letter-spacing: 5px;
         }
 
         .subtitle {
-            font-size: 1.5rem;
-            letter-spacing: 8px;
-            color: #0ff;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #ffd700;
             text-transform: uppercase;
-            margin-top: 10px;
-            text-shadow: 0 0 10px #0ff;
-            background: rgba(0, 0, 0, 0.5);
-            display: inline-block;
-            padding: 5px 20px;
-            border: 1px solid #0ff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            margin-top: 5px;
+            font-weight: 700;
         }
 
-        @keyframes textPulse {
-            0% {
-                text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
-            }
-
-            100% {
-                text-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff, 0 0 100px #00f;
-            }
-        }
-
-        /* Navigation */
+        /* Top Right Links */
         .nav-bar {
             position: absolute;
             top: 40px;
-            right: 50px;
+            right: 40px;
             display: flex;
-            gap: 40px;
+            gap: 30px;
             pointer-events: auto;
         }
 
         .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            color: #fff;
+            font-family: 'Cinzel', serif;
+            color: #ffd700;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            letter-spacing: 2px;
-            position: relative;
+            border: 1px solid #d4af37;
+            padding: 10px 20px;
             transition: 0.3s;
-            text-shadow: 0 0 10px #f0f;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: #f0f;
-            transition: 0.3s;
-            box-shadow: 0 0 10px #f0f;
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .nav-link:hover {
-            color: #f0f;
-            text-shadow: 0 0 20px #f0f, 0 0 40px #f0f;
+            background: #d4af37;
+            color: #000;
+            box-shadow: 0 0 20px #d4af37;
         }
 
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        /* Info Panel (Holographic HUD) */
-        #info-panel {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 400px;
-            height: 100%;
-            background: rgba(0, 10, 20, 0.85);
-            border-left: 2px solid #0ff;
-            transform: translateX(100%);
-            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-shadow: -20px 0 50px rgba(0, 255, 255, 0.2);
-            pointer-events: auto;
-        }
-
-        #info-panel.active {
-            transform: translateX(0);
-        }
-
-        #info-content h2 {
-            font-family: 'Orbitron';
-            font-size: 2.5rem;
-            color: #0ff;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px #0ff;
-            border-bottom: 2px solid #f0f;
-            padding-bottom: 15px;
-        }
-
-        #info-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #ddd;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-
-        .tech-tag {
-            display: inline-block;
-            padding: 5px 15px;
-            margin: 5px;
-            border: 1px solid #f0f;
-            color: #f0f;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
-        }
-
-        #close-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 2rem;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        #close-btn:hover {
-            color: #f0f;
-            text-shadow: 0 0 10px #f0f;
-        }
-
-        /* Instructions */
-        .instructions {
+        /* Info Card (Gold Card) */
+        #info-card {
             position: absolute;
             bottom: 40px;
             left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            animation: pulse 2s infinite;
+            transform: translateX(-50%) translateY(120%);
+            width: 90%;
+            max-width: 600px;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 30, 10, 0.95));
+            border: 2px solid #d4af37;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: auto;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
         }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 1;
-            }
+        #info-card.active {
+            transform: translateX(-50%) translateY(0);
         }
 
-        /* Loading */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 1s ease;
+        #card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2/5rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 10px;
+            display: inline-block;
         }
 
-        .loader-text {
-            font-family: 'Orbitron';
-            font-size: 2rem;
-            color: #0ff;
-            text-shadow: 0 0 20px #0ff;
-            letter-spacing: 5px;
+        #card-desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #eee;
             margin-bottom: 20px;
         }
 
-        .loader-bar {
-            width: 300px;
-            height: 4px;
-            background: #111;
-            position: relative;
-            overflow: hidden;
+        .skill-pill {
+            display: inline-block;
+            background: linear-gradient(45deg, #d4af37, #b8860b);
+            color: #000;
+            padding: 5px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
 
-        .loader-progress {
+        #close-card {
             position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: #0ff;
-            box-shadow: 0 0 20px #0ff;
-            animation: load 2s ease-in-out forwards;
+            top: 10px;
+            right: 15px;
+            color: #d4af37;
+            cursor: pointer;
+            font-size: 1.5rem;
         }
 
-        @keyframes load {
-            0% {
-                width: 0%;
-            }
-
-            100% {
-                width: 100%;
-            }
-        }
-
-        @media(max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-                letter-spacing: 5px;
-            }
-
-            .header.minimized {
-                left: 20px;
-                top: 20px;
-                scale: 0.5;
-                transform-origin: top left;
-            }
-
-            #info-panel {
-                width: 100%;
-            }
-
-            .nav-bar {
-                width: 100%;
-                justify-content: center;
-                right: 0;
-                background: rgba(0, 0, 0, 0.8);
-                top: 0;
-                padding: 10px 0;
-            }
+        /* Tip */
+        .tip {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            color: rgba(255, 215, 0, 0.5);
+            font-size: 0.8rem;
         }
     </style>
-    <!-- Three.js from CDN -->
+    <!-- Three.js -->
     <script type="importmap">
         {
             "imports": {
@@ -335,372 +186,299 @@
 </head>
 
 <body>
-
-    <div id="loader">
-        <div class="loader-text">INITIALIZING NEURAL CORE...</div>
-        <div class="loader-bar">
-            <div class="loader-progress"></div>
-        </div>
-    </div>
-
-    <!-- UI Layer -->
     <div id="ui-layer">
+        <header class="header">
+            <h1>SUJAN ACHARYA</h1>
+            <div class="subtitle">AI / ML ENGINEER | GOLD STANDARD</div>
+        </header>
+
         <nav class="nav-bar">
             <a href="https://github.com/sujan-acharya" class="nav-link" target="_blank">GITHUB</a>
             <a href="mailto:sujan.acharya@example.com" class="nav-link">EMAIL</a>
-            <a href="#" class="nav-link" onclick="openContact()">CONTACT</a>
         </nav>
 
-        <div class="header">
-            <h1>SUJAN ACHARYA</h1>
-            <div class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</div>
+        <div id="info-card">
+            <div id="close-card" onclick="closeCard()">✕</div>
+            <h2 id="card-title">PROJECT NAME</h2>
+            <p id="card-desc">Description goes here.</p>
+            <div id="card-skills"></div>
         </div>
 
-        <div class="instructions">[ CLICK PLANETS TO EXPLORE DATA NODES ]</div>
-
-        <!-- Info Panel -->
-        <div id="info-panel">
-            <div id="close-btn" onclick="closeInfo()">✕</div>
-            <div id="info-content">
-                <!-- Content injected via JS -->
-            </div>
-        </div>
+        <div class="tip">DRAG TO ROTATE • CLICK COINS FOR DETAILS</div>
     </div>
 
-    <!-- 3D Canvas -->
     <div id="canvas-coontainer"></div>
 
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
         // --- Config ---
         const config = {
-            bloomStrength: 1.5,
-            bloomRadius: 0.4,
-            bloomThreshold: 0,
-            coreSize: 2,
-            orbitSpeed: 0.002
+            coinRadius: 2.5,
+            coinThick: 0.4,
+            orbitRadius: 10
         };
 
-        // --- Data: Projects / Planets ---
-        const projects = [
+        // --- Data ---
+        const items = [
+            {
+                id: 'skills',
+                emoji: '⚡',
+                name: 'CORE SKILLS',
+                desc: 'My technical arsenal for building advanced AI systems.',
+                tags: ['C++', 'Django', 'Machine Learning', 'Data Science', 'Python']
+            },
             {
                 id: 'nerf',
-                name: 'NeRF ENGINE',
-                desc: 'Neural Radiance Fields implementation. Reconstructing 3D scenes from 2D images using deep neural networks. Creating volumetric representations with view-dependent radiance.',
-                tech: ['Python', 'PyTorch', 'CUDA', '3D Vision'],
-                color: 0xff3300,
-                size: 0.8,
-                distance: 8,
-                speed: 0.005,
-                angle: 0
+                emoji: '🤖',
+                name: 'NeRF Engine',
+                desc: 'Neural Radiance Fields. 3D scene reconstruction from photos using deep learning.',
+                tags: ['PyTorch', '3D Vision']
             },
             {
                 id: 'ipo',
+                emoji: '📈',
                 name: 'MaximumIPO',
-                desc: 'Stock market prediction engine specializing in IPO performance analysis. Utilizing LSTM/Transformer architectures to forecast market trends and opening prices.',
-                tech: ['TensorFlow', 'Pandas', 'Timeseries', 'FinTech'],
-                color: 0x00ff00,
-                size: 0.6,
-                distance: 12,
-                speed: 0.003,
-                angle: 2
+                desc: 'Stock market prediction using LSTMs to analyze IPO trends.',
+                tags: ['FinTech', 'Time Series']
             },
             {
                 id: 'video',
-                name: 'VIDEO CAPTIONING',
-                desc: 'Multimodal AI system that watches videos and generates accurate, context-aware captions in real-time. Bridges Computer Vision and NLP.',
-                tech: ['Transformers', 'OpenCV', 'NLP', 'React'],
-                color: 0x0066ff,
-                size: 0.7,
-                distance: 15,
-                speed: 0.004,
-                angle: 4
+                emoji: '🎬',
+                name: 'Video Captioning',
+                desc: 'Generating real-time captions for video content using NLP.',
+                tags: ['Transformers', 'OpenCV']
             },
             {
                 id: 'med',
-                name: 'MEDICINE RECOGNITION',
-                desc: 'Mobile-first AI doctor assistant. Identifies pills and medications from camera images, providing dosage info and contraindications instantly.',
-                tech: ['CNN', 'MobileNet', 'HealthTech', 'Flutter'],
-                color: 0xff00ff,
-                size: 0.5,
-                distance: 19,
-                speed: 0.002,
-                angle: 5
+                emoji: '💊',
+                name: 'Medicine Rec',
+                desc: 'AI-powered pill identification and dosage assistant.',
+                tags: ['Healthcare', 'CNN']
             },
             {
                 id: 'var',
-                name: 'VAR AUTOMATION',
-                desc: 'Industrial automation toolkit utilizing Variable Auto-Regressive models for complex system control and anomaly detection.',
-                tech: ['Robotics', 'Control Systems', 'C++', 'Python'],
-                color: 0xffff00,
-                size: 0.9,
-                distance: 22,
-                speed: 0.001,
-                angle: 1
+                emoji: '⚙️',
+                name: 'VAR Automation',
+                desc: 'Industrial automation and anomaly detection systems.',
+                tags: ['Automation', 'Robotics']
             },
             {
                 id: 'contact',
-                name: 'CONTACT SIGNAL',
-                desc: 'Establish a secure link. Open for collaborations, freelance, and research opportunities.',
-                tech: ['Email', 'LinkedIn', 'Signal'],
-                color: 0xffffff,
-                size: 0.4,
-                distance: 25,
-                speed: 0.006,
-                angle: 3
+                emoji: '🤙',
+                name: 'Contact Me',
+                desc: 'Let\'s build something legendary together.',
+                tags: ['Email', 'Collaboration']
             }
         ];
 
         // --- Init ---
         const container = document.getElementById('canvas-coontainer');
         const scene = new THREE.Scene();
-        // Fog for depth
-        scene.fog = new THREE.FogExp2(0x000000, 0.02);
+        // Fog for atmosphere
+        scene.fog = new THREE.FogExp2(0x111100, 0.02);
 
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 30;
-        camera.position.y = 10;
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 5, 25);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.toneMapping = THREE.ReinhardToneMapping;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.shadowMap.enabled = true;
         container.appendChild(renderer.domElement);
 
-        // --- Controls ---
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.maxDistance = 50;
-        controls.minDistance = 5;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.5;
 
-        // --- Post Processing (BLOOM) ---
-        const renderScene = new RenderPass(scene, camera);
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-        bloomPass.threshold = config.bloomThreshold;
-        bloomPass.strength = config.bloomStrength;
-        bloomPass.radius = config.bloomRadius;
+        // --- Lighting (Warm Gold) ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
 
-        const composer = new EffectComposer(renderer);
-        composer.addPass(renderScene);
-        composer.addPass(bloomPass);
+        const spotLight = new THREE.SpotLight(0xffd700, 200);
+        spotLight.position.set(10, 20, 10);
+        spotLight.castShadow = true;
+        scene.add(spotLight);
 
-        // --- Objects ---
-
-        // 1. The Core (Sun/Identity)
-        const coreGeo = new THREE.IcosahedronGeometry(config.coreSize, 4);
-        const coreMat = new THREE.MeshBasicMaterial({
-            color: 0x00ffff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.3
-        });
-        const core = new THREE.Mesh(coreGeo, coreMat);
-        scene.add(core);
-
-        // Inner glowing solid core
-        const coreInnerGeo = new THREE.IcosahedronGeometry(config.coreSize * 0.6, 2);
-        const coreInnerMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
-        const coreInner = new THREE.Mesh(coreInnerGeo, coreInnerMat);
-        core.add(coreInner);
-
-        // 2. Planets (Orbs)
-        const planetMeshes = [];
-        const orbitLines = [];
-
-        projects.forEach(p => {
-            // Orbit path (Ring)
-            const orbitGeo = new THREE.RingGeometry(p.distance - 0.05, p.distance + 0.05, 64);
-            const orbitMat = new THREE.MeshBasicMaterial({
-                color: 0xffffff,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.1
-            });
-            const orbit = new THREE.Mesh(orbitGeo, orbitMat);
-            orbit.rotation.x = Math.PI / 2;
-            scene.add(orbit);
-            orbitLines.push(orbit);
-
-            // Planet Group (Pivot)
-            const pivot = new THREE.Object3D();
-            scene.add(pivot);
-
-            // Planet Mesh
-            const geometry = new THREE.SphereGeometry(p.size, 32, 32);
-            const material = new THREE.MeshStandardMaterial({
-                color: p.color,
-                emissive: p.color,
-                emissiveIntensity: 2,
-                roughness: 0.4,
-                metalness: 0.8
-            });
-            const mesh = new THREE.Mesh(geometry, material);
-
-            // Initial Position
-            mesh.position.x = p.distance;
-
-            pivot.add(mesh);
-
-            // Metadata for interaction
-            mesh.userData = {
-                isPlanet: true,
-                project: p,
-                pivot: pivot,
-                originalScale: p.size
-            };
-
-            planetMeshes.push(mesh);
-        });
-
-        // 3. Stars (Particles)
-        const starGeo = new THREE.BufferGeometry();
-        const starCount = 5000;
-        const starPos = new Float32Array(starCount * 3);
-
-        for (let i = 0; i < starCount * 3; i++) {
-            starPos[i] = (Math.random() - 0.5) * 200;
-        }
-
-        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-        const starMat = new THREE.PointsMaterial({
-            size: 0.1,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.8
-        });
-        const stars = new THREE.Points(starGeo, starMat);
-        scene.add(stars);
-
-        // --- Lights ---
-        const pointLight = new THREE.PointLight(0xffffff, 2, 100);
-        pointLight.position.set(0, 0, 0);
+        const pointLight = new THREE.PointLight(0xffaa00, 10, 50);
+        pointLight.position.set(-10, -10, 5);
         scene.add(pointLight);
 
-        const ambientLight = new THREE.AmbientLight(0x404040);
-        scene.add(ambientLight);
+        // --- Materials ---
+        const goldMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffd700,
+            metalness: 1.0,
+            roughness: 0.3,
+            envMapIntensity: 1.0
+        });
+
+        const sideMaterial = new THREE.MeshStandardMaterial({
+            color: 0xb8860b,
+            metalness: 1.0,
+            roughness: 0.2,
+            flatShading: true
+        });
+
+        // --- Helper: Create Emoji Texture ---
+        function createEmojiTexture(emoji) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Gold Background for face
+            const grad = ctx.createRadialGradient(256, 256, 50, 256, 256, 256);
+            grad.addColorStop(0, '#ffd700');
+            grad.addColorStop(1, '#b8860b');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 512, 512);
+
+            // Emoji
+            ctx.font = '300px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#000'; // Emboss effect (simplified as black)
+            ctx.fillText(emoji, 256, 280); // Offset for better centering?
+
+            // Ring
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = '#634f2c';
+            ctx.beginPath();
+            ctx.arc(256, 256, 240, 0, Math.PI * 2);
+            ctx.stroke();
+
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.colorSpace = THREE.SRGBColorSpace;
+            return tex;
+        }
+
+        // --- Create Coins ---
+        const coins = [];
+        const group = new THREE.Group();
+        scene.add(group);
+
+        const count = items.length;
+        const radius = 9; // Radius of layout
+
+        items.forEach((item, i) => {
+            const angle = (i / count) * Math.PI * 2;
+
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+
+            // Texture
+            const faceTex = createEmojiTexture(item.emoji);
+            const faceMat = new THREE.MeshStandardMaterial({
+                map: faceTex,
+                metalness: 0.5,
+                roughness: 0.1
+            });
+
+            // Geometry: Cylinder
+            // RadiusTop, RadiusBottom, Height, Segments
+            const geometry = new THREE.CylinderGeometry(config.coinRadius, config.coinRadius, config.coinThick, 64);
+            // rotate geometry to face outward
+            geometry.rotateX(Math.PI / 2);
+
+            // [Side, Face, Face]
+            const mesh = new THREE.Mesh(geometry, [sideMaterial, faceMat, faceMat]);
+
+            mesh.position.set(x, 0, z);
+            mesh.lookAt(0, 0, 0); // Face center
+
+            mesh.userData = { id: item.id, data: item };
+            group.add(mesh);
+            coins.push(mesh);
+        });
+
+        // --- Gold Dust Particles ---
+        const particlesGeo = new THREE.BufferGeometry();
+        const pCount = 2000;
+        const pPos = new Float32Array(pCount * 3);
+        const pMat = new THREE.PointsMaterial({
+            color: 0xffd700,
+            size: 0.1,
+            transparent: true,
+            opacity: 0.6
+        });
+
+        for (let i = 0; i < pCount * 3; i++) {
+            pPos[i] = (Math.random() - 0.5) * 40;
+        }
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const particleSystem = new THREE.Points(particlesGeo, pMat);
+        scene.add(particleSystem);
+
 
         // --- Interaction ---
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
-        let hoveredObject = null;
 
-        window.addEventListener('mousemove', (event) => {
+        window.addEventListener('click', onMouseClick);
+        window.addEventListener('mousemove', onMouseMove);
+
+        function onMouseMove(event) {
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        window.addEventListener('click', (event) => {
-            if (hoveredObject) {
-                focusOnPlanet(hoveredObject);
-            } else {
-                // Clicking void resets view?
-                // resetView();
-            }
-        });
-
-        function focusOnPlanet(mesh) {
-            const p = mesh.userData.project;
-
-            // Move Camera
-            // We'll just minimize header and show info panel
-            document.querySelector('.header').classList.add('minimized');
-
-            // Populate Info
-            const panel = document.getElementById('info-content');
-            panel.innerHTML = `
-                <h2 style="color: #${p.color.toString(16)}">${p.name}</h2>
-                <p>${p.desc}</p>
-                <div style="margin-top: 20px;">
-                    ${p.tech.map(t => `<span class="tech-tag" style="border-color: #${p.color.toString(16)}; color: #${p.color.toString(16)}">${t}</span>`).join('')}
-                </div>
-            `;
-
-            // Show Panel
-            document.getElementById('info-panel').classList.add('active');
         }
 
-        window.closeInfo = function () {
-            document.getElementById('info-panel').classList.remove('active');
-            document.querySelector('.header').classList.remove('minimized');
-        };
+        function onMouseClick(event) {
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(coins);
 
-        window.openContact = function () {
-            // Find contact planet and trigger focus
-            const contactPlanet = planetMeshes.find(m => m.userData.project.id === 'contact');
-            if (contactPlanet) focusOnPlanet(contactPlanet);
-        };
+            if (intersects.length > 0) {
+                const item = intersects[0].object.userData.data;
+                showCard(item);
+            }
+        }
 
-        // --- Animation Loop ---
-        const clock = new THREE.Clock();
+        function showCard(item) {
+            const card = document.getElementById('info-card');
+            document.getElementById('card-title').textContent = item.name;
+            document.getElementById('card-desc').textContent = item.desc;
 
+            const skillsDiv = document.getElementById('card-skills');
+            skillsDiv.innerHTML = item.tags.map(t => `<span class="skill-pill">${t}</span>`).join('');
+
+            card.classList.add('active');
+            controls.autoRotate = false; // Stop rotating so they can read
+        }
+
+        window.closeCard = function () {
+            document.getElementById('info-card').classList.remove('active');
+            controls.autoRotate = true; // Resume
+        }
+
+
+        // --- Animation ---
         function animate() {
             requestAnimationFrame(animate);
 
-            const time = clock.getElapsedTime();
+            controls.update();
 
-            // Core Pulse
-            const scale = 1 + Math.sin(time * 2) * 0.1;
-            core.scale.set(scale, scale, scale);
-            core.rotation.y += 0.005;
-            core.rotation.z += 0.002;
-
-            // Planet Orbits
-            planetMeshes.forEach(mesh => {
-                const p = mesh.userData.project;
-                mesh.userData.pivot.rotation.y += p.speed;
-
-                // Self rotate
-                mesh.rotation.y += 0.02;
+            // Rotate coins locally
+            coins.forEach(coin => {
+                coin.rotation.z += 0.01; // Spin face
             });
 
-            // Stars Movement (Warp effect)
-            stars.rotation.y -= 0.0005;
+            // Float particles
+            particleSystem.rotation.y += 0.001;
 
-            // Raycasting
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(planetMeshes);
-
-            if (intersects.length > 0) {
-                if (hoveredObject !== intersects[0].object) {
-                    hoveredObject = intersects[0].object;
-                    document.body.style.cursor = 'pointer';
-                    // Hover scale effect
-                    hoveredObject.scale.set(hoveredObject.userData.originalScale * 1.5, hoveredObject.userData.originalScale * 1.5, hoveredObject.userData.originalScale * 1.5);
-                }
-            } else {
-                if (hoveredObject) {
-                    // Reset scale
-                    hoveredObject.scale.set(hoveredObject.userData.originalScale, hoveredObject.userData.originalScale, hoveredObject.userData.originalScale);
-                    hoveredObject = null;
-                    document.body.style.cursor = 'default';
-                }
-            }
-
-            controls.update();
-            composer.render();
+            renderer.render(scene, camera);
         }
 
-        // --- Resize ---
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Start
-        setTimeout(() => {
-            document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => document.getElementById('loader').remove(), 1000);
-        }, 2000);
-
         animate();
+
     </script>
 </body>
 
