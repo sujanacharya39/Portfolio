@@ -80,11 +80,89 @@
             }
         }
 
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* --- Top Right Nav (Fixed) --- */
+        .top-nav {
+            position: fixed;
+            top: 20px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            background: rgba(12, 12, 20, 0.8);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .sticky-name {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #fff;
+            margin-right: 10px;
+            opacity: 0;
+            /* Hidden initially */
+            transform: translateX(10px);
+            transition: all 0.5s ease;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .sticky-name.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+        }
+
+        .nav-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary);
+            transition: 0.3s;
+        }
+
+        .nav-icon:hover {
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .nav-icon:hover svg {
+            fill: #000;
+        }
+
+
         /* --- Header --- */
         header {
             text-align: center;
+            margin-top: 60px;
             margin-bottom: 80px;
             animation: fadeIn 1s ease-out;
+            position: relative;
         }
 
         h1 {
@@ -95,9 +173,34 @@
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Glowing Effect Letter (Fallback shadow) */
             text-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
             animation: glowPulse 3s infinite;
+        }
+
+        /* Side Line Outline Glow for Subtitle */
+        .role-wrapper {
+            display: inline-block;
+            position: relative;
+            padding: 0 30px;
+        }
+
+        .role-wrapper::before,
+        .role-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background: var(--secondary);
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .role-wrapper::before {
+            left: 0;
+        }
+
+        .role-wrapper::after {
+            right: 0;
         }
 
         .role {
@@ -105,6 +208,8 @@
             color: var(--text-gray);
             font-weight: 300;
             letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
         }
 
         /* --- Section Titles --- */
@@ -122,11 +227,12 @@
             background: rgba(255, 255, 255, 0.03);
             padding: 40px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            /* Inner Part Outline Glow */
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
             backdrop-filter: blur(10px);
             margin-bottom: 60px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-out 0.2s backwards;
+            animation: fadeIn 1s ease-out 0.2s backwards, float 6s ease-in-out infinite;
         }
 
         .about-text {
@@ -157,8 +263,6 @@
             color: var(--text-color);
             transition: 0.3s;
             cursor: default;
-            position: relative;
-            overflow: hidden;
         }
 
         .skill-tag:hover {
@@ -181,6 +285,15 @@
             perspective: 1000px;
         }
 
+        /* Slow floating on cards */
+        .card-wrap:nth-child(odd) {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .card-wrap:nth-child(even) {
+            animation: float 5s ease-in-out infinite 0.5s;
+        }
+
         .card {
             width: 100%;
             height: 100%;
@@ -191,35 +304,21 @@
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
-            /* Smooth JS tilt */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            /* Inner Outline Glow */
+            border: 1px solid rgba(189, 0, 255, 0.2);
         }
 
-        /* Glow on hover border */
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            box-shadow: 0 0 0 0 rgba(0, 243, 255, 0);
-            transition: 0.3s;
-            pointer-events: none;
-        }
-
-        .card-wrap:hover .card::after {
+        .card:hover {
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
             border: 1px solid var(--primary);
         }
 
         .card-content {
             transform: translateZ(30px);
-            /* 3D pop */
         }
 
         .project-icon {
@@ -265,31 +364,35 @@
             font-size: 0.9rem;
             margin-bottom: 20px;
         }
-
-        .social-links {
-            margin-top: 10px;
-        }
-
-        .social-links a {
-            color: var(--primary);
-            text-decoration: none;
-            margin: 0 10px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .social-links a:hover {
-            text-shadow: 0 0 10px var(--primary);
-        }
     </style>
 </head>
 
 <body>
 
+    <!-- Fixed Top Nav -->
+    <div class="top-nav">
+        <div class="sticky-name" id="sticky-name">SUJAN ACHARYA</div>
+
+        <a href="https://github.com/sujan-acharya" class="nav-icon" target="_blank" title="GitHub">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+        </a>
+        <a href="mailto:sujan.acharya@example.com" class="nav-icon" title="Email">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-11.174l4.623 5.462zm5.377 2.738l-5.364-6.338 11.364 13.671h-21.995l5.995-7.333zm5.378-2.738l4.622-5.461v11.175l-4.622-5.714zm-1.696-2.014l-5.682 6.716-5.682-6.716-5.941 7.086v-13h23.246v13l-5.941-7.086z" />
+            </svg>
+        </a>
+    </div>
+
     <div class="container">
-        <header>
+        <header id="main-header">
             <h1>SUJAN ACHARYA</h1>
-            <div class="role">DATA SCIENTIST & ML ENGINEER</div>
+            <div class="role-wrapper">
+                <div class="role">DATA SCIENTIST & ML ENGINEER</div>
+            </div>
         </header>
 
         <div class="about-section">
@@ -423,15 +526,11 @@
 
         <footer>
             <p>&copy; 2026 Sujan Acharya. Built with Code & Data.</p>
-            <div class="social-links">
-                <a href="https://github.com/sujan-acharya">GITHUB</a>
-                <a href="mailto:sujan.acharya@example.com">EMAIL</a>
-            </div>
         </footer>
     </div>
 
     <script>
-        // Simple Vanilla 3D Tilt Script
+        // Vanilla Tilt Logic
         const cards = document.querySelectorAll('.card');
 
         cards.forEach(card => {
@@ -440,13 +539,12 @@
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                // Calculate center
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
 
-                // Calculate rotation (Max 15deg)
-                const rotateX = ((y - centerY) / centerY) * -10;
-                const rotateY = ((x - centerX) / centerX) * 10;
+                // Limit rotation to 8deg for "Slow and simple" feel
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
@@ -454,6 +552,19 @@
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
             });
+        });
+
+        // Sticky Header Logic
+        const stickyName = document.getElementById('sticky-name');
+        const header = document.getElementById('main-header');
+
+        window.addEventListener('scroll', () => {
+            // Show sticky name when scrolled past header (approx 200px)
+            if (window.scrollY > 200) {
+                stickyName.classList.add('visible');
+            } else {
+                stickyName.classList.remove('visible');
+            }
         });
     </script>
 
