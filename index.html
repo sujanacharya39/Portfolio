@@ -350,49 +350,69 @@
             cursor: pointer;
         }
 
-        /* Orbital Rings */
-        .orbital-ring {
+        /* Hero Holo Styling */
+        .hero-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .about-holo {
+            width: 80%;
+            max-width: 800px;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid var(--cyan);
+            padding: 2rem;
+            position: relative;
+            margin-top: 2rem;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .about-holo::before {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 2px solid;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: rotate 10s linear infinite;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--cyan);
+            animation: holoScan 3s linear infinite;
         }
 
-        .ring-1 {
-            width: 120%;
-            height: 120%;
-            border-color: var(--cyan);
-            animation-duration: 8s;
-        }
-
-        .ring-2 {
-            width: 140%;
-            height: 140%;
-            border-color: var(--magenta);
-            animation-duration: 12s;
-            animation-direction: reverse;
-        }
-
-        .ring-3 {
-            width: 160%;
-            height: 160%;
-            border-color: var(--yellow);
-            animation-duration: 15s;
-        }
-
-        @keyframes rotate {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
+        @keyframes holoScan {
+            0% {
+                top: 0;
+                opacity: 1;
             }
 
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
+            100% {
+                top: 100%;
+                opacity: 0;
             }
+        }
+
+        .holo-content h3 {
+            color: var(--cyan);
+            font-family: 'Share Tech Mono';
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--cyan);
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .holo-content p {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-ticker {
+            margin-top: 1.5rem;
+            color: var(--magenta);
+            font-weight: 700;
+            font-family: monospace;
         }
 
         /* Door Scene */
@@ -409,32 +429,78 @@
         }
 
         /* Door Frame */
+        /* Optimization: Removed framePulse animation and backdrop-filter to fix lag */
         .door-frame {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
-            border: 3px solid;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 2px solid;
             border-radius: 10px;
-            box-shadow:
-                inset 0 0 50px rgba(255, 255, 255, 0.3),
-                0 0 60px rgba(0, 255, 255, 0.6),
-                0 0 100px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
             transform-style: preserve-3d;
-            animation: framePulse 3s ease-in-out infinite;
-            backdrop-filter: blur(2px);
+            will-change: transform;
+            /* Performance Hint */
         }
 
-        @keyframes framePulse {
+        /* Unique Style: Deep Learning (Hexagon feel via clip-path or borders) */
+        .door-container[data-door="2"] .door-frame {
+            border-color: var(--magenta);
+            border-radius: 0;
+            border-width: 4px;
+            box-shadow: 0 0 20px var(--magenta);
+            background: rgba(255, 0, 255, 0.05);
+        }
 
-            0%,
-            100% {
-                box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.3), 0 0 60px currentColor, 0 0 100px currentColor;
-            }
+        /* Unique Style: Vision (Circular/Lens) */
+        /* Note: Keeping rect shape for doors but styling frame to look like a viewfinder */
+        .door-container[data-door="3"] .door-frame {
+            border: 1px dashed var(--yellow);
+            border-radius: 20px;
+        }
 
-            50% {
-                box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.5), 0 0 100px currentColor, 0 0 150px currentColor;
-            }
+        .door-container[data-door="3"] .door-frame::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid var(--yellow);
+            border-radius: 15px;
+        }
+
+        /* Unique Style: NLP (Matrix Code) */
+        .door-container[data-door="4"] .door-frame {
+            border: none;
+            box-shadow: inset 0 0 20px var(--lime);
+            background: repeating-linear-gradient(0deg, rgba(0, 255, 0, 0.1) 0px, transparent 1px, transparent 4px);
+        }
+
+        /* Unique Style: Projects (Blueprint) */
+        .door-container[data-door="5"] .door-frame {
+            border: 2px solid var(--orange);
+            background-image: radial-gradient(var(--orange) 1px, transparent 1px);
+            background-size: 10px 10px;
+        }
+
+        /* Unique Style: Contact (Round/Signal) */
+        .door-container[data-door="6"] .door-frame {
+            border-radius: 50%;
+            /* Experimental shape change */
+            border: 4px double var(--purple);
+            width: 80%;
+            /* Smaller circular door */
+            left: 10%;
+        }
+
+        /* Adjust panels for circular door contact */
+        .door-container[data-door="6"] .door-left,
+        .door-container[data-door="6"] .door-right {
+            /* Keep rectangular panels but mask/hide excess if possible, or just style the frame */
+            border-right: none;
+            border-left: none;
+            background: rgba(26, 0, 51, 0.9);
         }
 
         .door-container:nth-child(1) .door-frame {
@@ -983,70 +1049,33 @@
     <div class="starfield" id="starfield"></div>
 
     <!-- Main Header -->
-    <div class="main-header">
-        <h1 class="glitch-title" data-text="SUJAN ACHARYA">SUJAN ACHARYA</h1>
-        <p class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</p>
+    <!-- Main Header & About Hero -->
+    <div class="hero-container">
+        <div class="main-header">
+            <h1 class="glitch-title" data-text="SUJAN ACHARYA">SUJAN ACHARYA</h1>
+            <p class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</p>
+        </div>
+
+        <!-- Holographic ID / About Section -->
+        <div class="about-holo">
+            <div class="holo-content">
+                <h3>PROFILE_SCAN_COMPLETE</h3>
+                <p><strong>Name:</strong> Sujan Acharya</p>
+                <p><strong>Role:</strong> Neural Architect</p>
+                <p><strong>Status:</strong> Building the Future</p>
+                <p class="holo-desc">
+                    Specializing in Deep Learning, Computer Vision, and Generative AI.
+                    Merging chaotic data into structured intelligence.
+                </p>
+                <div class="tech-ticker">TensorFlow • PyTorch • OpenCV • LLMs • NeRF</div>
+            </div>
+        </div>
     </div>
 
     <!-- Door Grid -->
     <div class="door-grid">
 
-        <!-- Door 1: About Me -->
-        <div class="door-container" data-door="1">
-            <div class="orbital-ring ring-1"></div>
-            <div class="orbital-ring ring-2"></div>
-            <div class="orbital-ring ring-3"></div>
-
-            <div class="door-scene">
-                <div class="door-frame">
-                    <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400" alt="Neural"
-                            class="door-image">
-                    </div>
-                    <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400" alt="Brain"
-                            class="door-image">
-                    </div>
-
-                    <div class="door-label">
-                        <div class="door-icon">🧠</div>
-                        <div class="door-title">ABOUT</div>
-                    </div>
-                </div>
-
-                <div class="door-content">
-                    <div class="close-door-btn" style="color: var(--cyan); border-color: var(--cyan);">✕</div>
-                    <h2 class="content-header" style="color: var(--cyan);">WHO AM I</h2>
-                    <p class="content-text">
-                        I'm Sujan Acharya, an AI Engineer specializing in cutting-edge machine learning solutions.
-                        My passion lies in developing intelligent systems that transform data into actionable insights
-                        and solve complex real-world problems.
-                    </p>
-                    <p class="content-text">
-                        With extensive experience in deep learning, neural networks, and AI deployment, I bridge
-                        the gap between theoretical AI research and practical business applications.
-                    </p>
-                    <div class="stats-container">
-                        <div class="stat-box" style="border-color: var(--cyan);">
-                            <span class="stat-number" style="color: var(--cyan);">5+</span>
-                            <span class="stat-label">Years Experience</span>
-                        </div>
-                        <div class="stat-box" style="border-color: var(--cyan);">
-                            <span class="stat-number" style="color: var(--cyan);">60+</span>
-                            <span class="stat-label">AI Projects</span>
-                        </div>
-                        <div class="stat-box" style="border-color: var(--cyan);">
-                            <span class="stat-number" style="color: var(--cyan);">25+</span>
-                            <span class="stat-label">Models Deployed</span>
-                        </div>
-                        <div class="stat-box" style="border-color: var(--cyan);">
-                            <span class="stat-number" style="color: var(--cyan);">97%</span>
-                            <span class="stat-label">Success Rate</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Door 1: Removed (Now Hero Section) -->
 
         <!-- Door 2: Deep Learning -->
         <div class="door-container" data-door="2">
