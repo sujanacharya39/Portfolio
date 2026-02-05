@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sujan Acharya | 3D Portal Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -72,8 +74,15 @@
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
         /* Main Title */
@@ -91,21 +100,204 @@
             text-transform: uppercase;
             position: relative;
             display: inline-block;
-            animation: titleGlow 2s ease-in-out infinite;
+            color: white;
         }
 
-        @keyframes titleGlow {
-            0%, 100% {
-                text-shadow: 
-                    0 0 10px var(--cyan),
-                    0 0 20px var(--cyan),
-                    0 0 30px var(--cyan);
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            /* Match background to hide main text */
+        }
+
+        .glitch-title::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--magenta);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-1 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-title::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--cyan);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% {
+                clip: rect(30px, 9999px, 10px, 0);
             }
+
+            5% {
+                clip: rect(70px, 9999px, 90px, 0);
+            }
+
+            10% {
+                clip: rect(55px, 9999px, 35px, 0);
+            }
+
+            15% {
+                clip: rect(10px, 9999px, 80px, 0);
+            }
+
+            20% {
+                clip: rect(95px, 9999px, 65px, 0);
+            }
+
+            25% {
+                clip: rect(20px, 9999px, 100px, 0);
+            }
+
+            30% {
+                clip: rect(85px, 9999px, 45px, 0);
+            }
+
+            35% {
+                clip: rect(5px, 9999px, 75px, 0);
+            }
+
+            40% {
+                clip: rect(60px, 9999px, 25px, 0);
+            }
+
+            45% {
+                clip: rect(40px, 9999px, 55px, 0);
+            }
+
             50% {
-                text-shadow: 
-                    0 0 20px var(--magenta),
-                    0 0 40px var(--magenta),
-                    0 0 60px var(--magenta);
+                clip: rect(90px, 9999px, 15px, 0);
+            }
+
+            55% {
+                clip: rect(15px, 9999px, 60px, 0);
+            }
+
+            60% {
+                clip: rect(75px, 9999px, 30px, 0);
+            }
+
+            65% {
+                clip: rect(25px, 9999px, 95px, 0);
+            }
+
+            70% {
+                clip: rect(50px, 9999px, 5px, 0);
+            }
+
+            75% {
+                clip: rect(80px, 9999px, 40px, 0);
+            }
+
+            80% {
+                clip: rect(35px, 9999px, 85px, 0);
+            }
+
+            85% {
+                clip: rect(65px, 9999px, 20px, 0);
+            }
+
+            90% {
+                clip: rect(10px, 9999px, 50px, 0);
+            }
+
+            95% {
+                clip: rect(45px, 9999px, 70px, 0);
+            }
+
+            100% {
+                clip: rect(20px, 9999px, 90px, 0);
+            }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+            }
+
+            5% {
+                clip: rect(15px, 9999px, 30px, 0);
+            }
+
+            10% {
+                clip: rect(80px, 9999px, 5px, 0);
+            }
+
+            15% {
+                clip: rect(40px, 9999px, 60px, 0);
+            }
+
+            20% {
+                clip: rect(95px, 9999px, 25px, 0);
+            }
+
+            25% {
+                clip: rect(10px, 9999px, 85px, 0);
+            }
+
+            30% {
+                clip: rect(70px, 9999px, 15px, 0);
+            }
+
+            35% {
+                clip: rect(35px, 9999px, 50px, 0);
+            }
+
+            40% {
+                clip: rect(90px, 9999px, 75px, 0);
+            }
+
+            45% {
+                clip: rect(5px, 9999px, 45px, 0);
+            }
+
+            50% {
+                clip: rect(60px, 9999px, 95px, 0);
+            }
+
+            55% {
+                clip: rect(25px, 9999px, 10px, 0);
+            }
+
+            60% {
+                clip: rect(85px, 9999px, 40px, 0);
+            }
+
+            65% {
+                clip: rect(45px, 9999px, 70px, 0);
+            }
+
+            70% {
+                clip: rect(20px, 9999px, 35px, 0);
+            }
+
+            75% {
+                clip: rect(75px, 9999px, 90px, 0);
+            }
+
+            80% {
+                clip: rect(50px, 9999px, 20px, 0);
+            }
+
+            85% {
+                clip: rect(30px, 9999px, 65px, 0);
+            }
+
+            90% {
+                clip: rect(55px, 9999px, 80px, 0);
+            }
+
+            95% {
+                clip: rect(100px, 9999px, 55px, 0);
+            }
+
+            100% {
+                clip: rect(5px, 9999px, 15px, 0);
             }
         }
 
@@ -126,8 +318,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
         /* Door Grid Container */
@@ -187,8 +386,13 @@
         }
 
         @keyframes rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
         }
 
         /* Door Scene */
@@ -212,21 +416,39 @@
             background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
             border: 3px solid;
             border-radius: 10px;
-            box-shadow: 
+            box-shadow:
                 inset 0 0 30px rgba(255, 255, 255, 0.1),
                 0 0 50px rgba(0, 255, 255, 0.3);
             transform-style: preserve-3d;
         }
 
-        .door-container:nth-child(1) .door-frame { border-color: var(--cyan); }
-        .door-container:nth-child(2) .door-frame { border-color: var(--magenta); }
-        .door-container:nth-child(3) .door-frame { border-color: var(--yellow); }
-        .door-container:nth-child(4) .door-frame { border-color: var(--lime); }
-        .door-container:nth-child(5) .door-frame { border-color: var(--orange); }
-        .door-container:nth-child(6) .door-frame { border-color: var(--purple); }
+        .door-container:nth-child(1) .door-frame {
+            border-color: var(--cyan);
+        }
+
+        .door-container:nth-child(2) .door-frame {
+            border-color: var(--magenta);
+        }
+
+        .door-container:nth-child(3) .door-frame {
+            border-color: var(--yellow);
+        }
+
+        .door-container:nth-child(4) .door-frame {
+            border-color: var(--lime);
+        }
+
+        .door-container:nth-child(5) .door-frame {
+            border-color: var(--orange);
+        }
+
+        .door-container:nth-child(6) .door-frame {
+            border-color: var(--purple);
+        }
 
         /* Door Panels */
-        .door-left, .door-right {
+        .door-left,
+        .door-right {
             position: absolute;
             width: 50%;
             height: 100%;
@@ -251,22 +473,34 @@
         }
 
         .door-container:nth-child(1) .door-left,
-        .door-container:nth-child(1) .door-right { border-color: var(--cyan); }
-        
+        .door-container:nth-child(1) .door-right {
+            border-color: var(--cyan);
+        }
+
         .door-container:nth-child(2) .door-left,
-        .door-container:nth-child(2) .door-right { border-color: var(--magenta); }
-        
+        .door-container:nth-child(2) .door-right {
+            border-color: var(--magenta);
+        }
+
         .door-container:nth-child(3) .door-left,
-        .door-container:nth-child(3) .door-right { border-color: var(--yellow); }
-        
+        .door-container:nth-child(3) .door-right {
+            border-color: var(--yellow);
+        }
+
         .door-container:nth-child(4) .door-left,
-        .door-container:nth-child(4) .door-right { border-color: var(--lime); }
-        
+        .door-container:nth-child(4) .door-right {
+            border-color: var(--lime);
+        }
+
         .door-container:nth-child(5) .door-left,
-        .door-container:nth-child(5) .door-right { border-color: var(--orange); }
-        
+        .door-container:nth-child(5) .door-right {
+            border-color: var(--orange);
+        }
+
         .door-container:nth-child(6) .door-left,
-        .door-container:nth-child(6) .door-right { border-color: var(--purple); }
+        .door-container:nth-child(6) .door-right {
+            border-color: var(--purple);
+        }
 
         /* Door Open State */
         .door-container.open .door-left {
@@ -312,8 +546,15 @@
         }
 
         @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
         }
 
         .door-title {
@@ -325,22 +566,34 @@
         }
 
         .door-container:nth-child(1) .door-icon,
-        .door-container:nth-child(1) .door-title { color: var(--cyan); }
-        
+        .door-container:nth-child(1) .door-title {
+            color: var(--cyan);
+        }
+
         .door-container:nth-child(2) .door-icon,
-        .door-container:nth-child(2) .door-title { color: var(--magenta); }
-        
+        .door-container:nth-child(2) .door-title {
+            color: var(--magenta);
+        }
+
         .door-container:nth-child(3) .door-icon,
-        .door-container:nth-child(3) .door-title { color: var(--yellow); }
-        
+        .door-container:nth-child(3) .door-title {
+            color: var(--yellow);
+        }
+
         .door-container:nth-child(4) .door-icon,
-        .door-container:nth-child(4) .door-title { color: var(--lime); }
-        
+        .door-container:nth-child(4) .door-title {
+            color: var(--lime);
+        }
+
         .door-container:nth-child(5) .door-icon,
-        .door-container:nth-child(5) .door-title { color: var(--orange); }
-        
+        .door-container:nth-child(5) .door-title {
+            color: var(--orange);
+        }
+
         .door-container:nth-child(6) .door-icon,
-        .door-container:nth-child(6) .door-title { color: var(--purple); }
+        .door-container:nth-child(6) .door-title {
+            color: var(--purple);
+        }
 
         /* Content Behind Door */
         .door-content {
@@ -366,27 +619,32 @@
             z-index: 5;
         }
 
-        .door-container:nth-child(1) .door-content { 
+        .door-container:nth-child(1) .door-content {
             border-color: var(--cyan);
             box-shadow: inset 0 0 50px rgba(0, 255, 255, 0.2);
         }
-        .door-container:nth-child(2) .door-content { 
+
+        .door-container:nth-child(2) .door-content {
             border-color: var(--magenta);
             box-shadow: inset 0 0 50px rgba(255, 0, 255, 0.2);
         }
-        .door-container:nth-child(3) .door-content { 
+
+        .door-container:nth-child(3) .door-content {
             border-color: var(--yellow);
             box-shadow: inset 0 0 50px rgba(255, 255, 0, 0.2);
         }
-        .door-container:nth-child(4) .door-content { 
+
+        .door-container:nth-child(4) .door-content {
             border-color: var(--lime);
             box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2);
         }
-        .door-container:nth-child(5) .door-content { 
+
+        .door-container:nth-child(5) .door-content {
             border-color: var(--orange);
             box-shadow: inset 0 0 50px rgba(255, 102, 0, 0.2);
         }
-        .door-container:nth-child(6) .door-content { 
+
+        .door-container:nth-child(6) .door-content {
             border-color: var(--purple);
             box-shadow: inset 0 0 50px rgba(153, 51, 255, 0.2);
         }
@@ -568,6 +826,7 @@
                 opacity: 0;
                 transform: translateY(100px) rotateX(-20deg);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) rotateX(0);
@@ -578,12 +837,29 @@
             animation: doorAppear 0.8s ease-out backwards;
         }
 
-        .door-container:nth-child(1) { animation-delay: 0.1s; }
-        .door-container:nth-child(2) { animation-delay: 0.2s; }
-        .door-container:nth-child(3) { animation-delay: 0.3s; }
-        .door-container:nth-child(4) { animation-delay: 0.4s; }
-        .door-container:nth-child(5) { animation-delay: 0.5s; }
-        .door-container:nth-child(6) { animation-delay: 0.6s; }
+        .door-container:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .door-container:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .door-container:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .door-container:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .door-container:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .door-container:nth-child(6) {
+            animation-delay: 0.6s;
+        }
 
         /* Particle Effects */
         .particle {
@@ -604,6 +880,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Custom Cursor -->
     <div class="custom-cursor"></div>
@@ -614,29 +891,31 @@
 
     <!-- Main Header -->
     <div class="main-header">
-        <h1 class="glitch-title">SUJAN ACHARYA</h1>
-        <p class="subtitle">AI ENGINEER // NEURAL ARCHITECT</p>
-        <p class="instruction">[ CLICK ANY DOOR TO ENTER THE DIMENSION ]</p>
+        <h1 class="glitch-title" data-text="SUJAN ACHARYA">SUJAN ACHARYA</h1>
+        <p class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</p>
+        <p class="instruction">[ CHOOSE YOUR PILL / ENTER THE MATRIX ]</p>
     </div>
 
     <!-- Door Grid -->
     <div class="door-grid">
-        
+
         <!-- Door 1: About Me -->
         <div class="door-container" data-door="1">
             <div class="orbital-ring ring-1"></div>
             <div class="orbital-ring ring-2"></div>
             <div class="orbital-ring ring-3"></div>
-            
+
             <div class="door-scene">
                 <div class="door-frame">
                     <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400" alt="Neural" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400" alt="Neural"
+                            class="door-image">
                     </div>
                     <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400" alt="Brain" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400" alt="Brain"
+                            class="door-image">
                     </div>
-                    
+
                     <div class="door-label">
                         <div class="door-icon">🧠</div>
                         <div class="door-title">ABOUT</div>
@@ -647,12 +926,12 @@
                     <div class="close-door-btn" style="color: var(--cyan); border-color: var(--cyan);">✕</div>
                     <h2 class="content-header" style="color: var(--cyan);">WHO AM I</h2>
                     <p class="content-text">
-                        I'm Sujan Acharya, an AI Engineer specializing in cutting-edge machine learning solutions. 
-                        My passion lies in developing intelligent systems that transform data into actionable insights 
+                        I'm Sujan Acharya, an AI Engineer specializing in cutting-edge machine learning solutions.
+                        My passion lies in developing intelligent systems that transform data into actionable insights
                         and solve complex real-world problems.
                     </p>
                     <p class="content-text">
-                        With extensive experience in deep learning, neural networks, and AI deployment, I bridge 
+                        With extensive experience in deep learning, neural networks, and AI deployment, I bridge
                         the gap between theoretical AI research and practical business applications.
                     </p>
                     <div class="stats-container">
@@ -682,16 +961,18 @@
             <div class="orbital-ring ring-1"></div>
             <div class="orbital-ring ring-2"></div>
             <div class="orbital-ring ring-3"></div>
-            
+
             <div class="door-scene">
                 <div class="door-frame">
                     <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400" alt="AI" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400" alt="AI"
+                            class="door-image">
                     </div>
                     <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=400" alt="Network" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=400" alt="Network"
+                            class="door-image">
                     </div>
-                    
+
                     <div class="door-label">
                         <div class="door-icon">🔥</div>
                         <div class="door-title">DEEP LEARNING</div>
@@ -702,12 +983,13 @@
                     <div class="close-door-btn" style="color: var(--magenta); border-color: var(--magenta);">✕</div>
                     <h2 class="content-header" style="color: var(--magenta);">NEURAL NETWORKS MASTERY</h2>
                     <p class="content-text">
-                        Expert in designing, training, and optimizing state-of-the-art neural network architectures 
+                        Expert in designing, training, and optimizing state-of-the-art neural network architectures
                         for complex problem-solving across multiple domains.
                     </p>
                     <ul class="content-list">
                         <li style="border-color: var(--magenta); color: var(--magenta);">
-                            <strong>CNNs:</strong> Convolutional Neural Networks for image processing and computer vision
+                            <strong>CNNs:</strong> Convolutional Neural Networks for image processing and computer
+                            vision
                         </li>
                         <li style="border-color: var(--magenta); color: var(--magenta);">
                             <strong>RNNs & LSTMs:</strong> Recurrent networks for sequential data and time series
@@ -723,11 +1005,15 @@
                         </li>
                     </ul>
                     <div class="tech-stack">
-                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">TensorFlow</span>
-                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">PyTorch</span>
-                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">Keras</span>
+                        <span class="tech-badge"
+                            style="color: var(--magenta); border-color: var(--magenta);">TensorFlow</span>
+                        <span class="tech-badge"
+                            style="color: var(--magenta); border-color: var(--magenta);">PyTorch</span>
+                        <span class="tech-badge"
+                            style="color: var(--magenta); border-color: var(--magenta);">Keras</span>
                         <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">JAX</span>
-                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">CUDA</span>
+                        <span class="tech-badge"
+                            style="color: var(--magenta); border-color: var(--magenta);">CUDA</span>
                     </div>
                 </div>
             </div>
@@ -738,16 +1024,18 @@
             <div class="orbital-ring ring-1"></div>
             <div class="orbital-ring ring-2"></div>
             <div class="orbital-ring ring-3"></div>
-            
+
             <div class="door-scene">
                 <div class="door-frame">
                     <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400" alt="Vision" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400" alt="Vision"
+                            class="door-image">
                     </div>
                     <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=400" alt="Eye" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=400" alt="Eye"
+                            class="door-image">
                     </div>
-                    
+
                     <div class="door-label">
                         <div class="door-icon">👁️</div>
                         <div class="door-title">VISION AI</div>
@@ -758,7 +1046,7 @@
                     <div class="close-door-btn" style="color: var(--yellow); border-color: var(--yellow);">✕</div>
                     <h2 class="content-header" style="color: var(--yellow);">COMPUTER VISION EXPERT</h2>
                     <p class="content-text">
-                        Building advanced computer vision systems that perceive, understand, and interpret 
+                        Building advanced computer vision systems that perceive, understand, and interpret
                         visual information with superhuman accuracy and speed.
                     </p>
                     <ul class="content-list">
@@ -782,10 +1070,13 @@
                         </li>
                     </ul>
                     <div class="tech-stack">
-                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">OpenCV</span>
+                        <span class="tech-badge"
+                            style="color: var(--yellow); border-color: var(--yellow);">OpenCV</span>
                         <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">YOLO</span>
-                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">ResNet</span>
-                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">EfficientNet</span>
+                        <span class="tech-badge"
+                            style="color: var(--yellow); border-color: var(--yellow);">ResNet</span>
+                        <span class="tech-badge"
+                            style="color: var(--yellow); border-color: var(--yellow);">EfficientNet</span>
                     </div>
                 </div>
             </div>
@@ -796,16 +1087,18 @@
             <div class="orbital-ring ring-1"></div>
             <div class="orbital-ring ring-2"></div>
             <div class="orbital-ring ring-3"></div>
-            
+
             <div class="door-scene">
                 <div class="door-frame">
                     <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1676277791608-ac522707146d?w=400" alt="Language" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1676277791608-ac522707146d?w=400" alt="Language"
+                            class="door-image">
                     </div>
                     <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1675271591471-0b8f47d02271?w=400" alt="Chat" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1675271591471-0b8f47d02271?w=400" alt="Chat"
+                            class="door-image">
                     </div>
-                    
+
                     <div class="door-label">
                         <div class="door-icon">💬</div>
                         <div class="door-title">NLP & LLMs</div>
@@ -816,7 +1109,7 @@
                     <div class="close-door-btn" style="color: var(--lime); border-color: var(--lime);">✕</div>
                     <h2 class="content-header" style="color: var(--lime);">LANGUAGE AI ARCHITECT</h2>
                     <p class="content-text">
-                        Creating intelligent language models and conversational AI systems that understand 
+                        Creating intelligent language models and conversational AI systems that understand
                         context, generate human-like text, and process natural language with precision.
                     </p>
                     <ul class="content-list">
@@ -843,7 +1136,8 @@
                         <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">GPT-4</span>
                         <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">BERT</span>
                         <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">LangChain</span>
-                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">Hugging Face</span>
+                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">Hugging
+                            Face</span>
                         <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">spaCy</span>
                     </div>
                 </div>
@@ -855,16 +1149,18 @@
             <div class="orbital-ring ring-1"></div>
             <div class="orbital-ring ring-2"></div>
             <div class="orbital-ring ring-3"></div>
-            
+
             <div class="door-scene">
                 <div class="door-frame">
                     <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400" alt="Projects" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400" alt="Projects"
+                            class="door-image">
                     </div>
                     <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400" alt="Tech" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400" alt="Tech"
+                            class="door-image">
                     </div>
-                    
+
                     <div class="door-label">
                         <div class="door-icon">🚀</div>
                         <div class="door-title">PROJECTS</div>
@@ -873,31 +1169,29 @@
 
                 <div class="door-content">
                     <div class="close-door-btn" style="color: var(--orange); border-color: var(--orange);">✕</div>
-                    <h2 class="content-header" style="color: var(--orange);">FEATURED WORK</h2>
+                    <h2 class="content-header" style="color: var(--orange);">GOD TIER SH*T</h2>
                     <ul class="content-list">
                         <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>AI Medical Diagnosis System:</strong> Deep learning model achieving 96.3% accuracy 
-                            in detecting multiple diseases from X-rays and MRI scans. Deployed in 3 hospitals.
+                            <strong>NeRF Implementation:</strong>
+                            Reconstructing 3D reality from 2D chaos. Neural Radiance Fields that make traditional
+                            rendering look like Pong.
                         </li>
                         <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Real-time Object Detection Pipeline:</strong> Custom YOLO implementation processing 
-                            65 FPS for autonomous vehicle navigation and obstacle detection.
+                            <strong>MaximumIPO:</strong>
+                            Predicting the market before the market knows it exists. (Stonks only go up 🚀).
                         </li>
                         <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Multilingual Chatbot Platform:</strong> LLM-powered conversational AI supporting 
-                            20+ languages with context memory and personalization.
+                            <strong>VARAutomation:</strong>
+                            Automating the un-automatable. Because manual labor is for mortals.
                         </li>
                         <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Predictive Analytics Engine:</strong> Time-series forecasting system predicting 
-                            equipment failures 12 days in advance with 89% precision.
+                            <strong>Video Captioning:</strong>
+                            Teaching AI to watch movies and tell me if they're good. (It mostly just captions them
+                            accurately).
                         </li>
                         <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Content Moderation AI:</strong> NLP system processing 150K+ posts per hour, 
-                            filtering harmful content with 95% accuracy.
-                        </li>
-                        <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Facial Recognition Security:</strong> Biometric authentication system with 
-                            99.2% accuracy and anti-spoofing capabilities.
+                            <strong>Medicine Recognition:</strong>
+                            AI Doctor in your pocket. Identifying meds faster than a pharmacist on espresso.
                         </li>
                     </ul>
                 </div>
@@ -909,16 +1203,18 @@
             <div class="orbital-ring ring-1"></div>
             <div class="orbital-ring ring-2"></div>
             <div class="orbital-ring ring-3"></div>
-            
+
             <div class="door-scene">
                 <div class="door-frame">
                     <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400" alt="Contact" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400" alt="Contact"
+                            class="door-image">
                     </div>
                     <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400" alt="Connect" class="door-image">
+                        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400" alt="Connect"
+                            class="door-image">
                     </div>
-                    
+
                     <div class="door-label">
                         <div class="door-icon">📡</div>
                         <div class="door-title">CONNECT</div>
@@ -929,34 +1225,36 @@
                     <div class="close-door-btn" style="color: var(--purple); border-color: var(--purple);">✕</div>
                     <h2 class="content-header" style="color: var(--purple);">LET'S BUILD THE FUTURE</h2>
                     <p class="content-text">
-                        Looking for AI consultation, collaboration, or full-time opportunities? 
+                        Looking for AI consultation, collaboration, or full-time opportunities?
                         I'm available for freelance projects, research partnerships, and innovative ventures.
                     </p>
                     <p class="content-text">
-                        <strong>Specialties:</strong> AI Strategy, ML Model Development, Computer Vision Solutions, 
+                        <strong>Specialties:</strong> AI Strategy, ML Model Development, Computer Vision Solutions,
                         NLP Applications, AI Integration, Technical Consulting
                     </p>
                     <div class="contact-grid">
-                        <a href="mailto:sujan.acharya@example.com" class="contact-link" 
-                           style="color: var(--purple); border-color: var(--purple);">
+                        <a href="mailto:sujan.acharya@example.com" class="contact-link"
+                            style="color: var(--purple); border-color: var(--purple);">
                             📧 EMAIL
                         </a>
-                        <a href="https://linkedin.com/in/sujan-acharya" class="contact-link" 
-                           style="color: var(--cyan); border-color: var(--cyan);">
-                            💼 LINKEDIN
+                        <a href="https://github.com/sujan-acharya" class="contact-link"
+                            style="color: var(--lime); border-color: var(--lime);">
+                            🐙 GITHUB
                         </a>
-                        <a href="https://github.com/sujan-acharya" class="contact-link" 
-                           style="color: var(--lime); border-color: var(--lime);">
-                            💻 GITHUB
+                        <a href="#" class="contact-link" style="color: var(--cyan); border-color: var(--cyan);">
+                            ☕ OTHER
                         </a>
-                        <a href="https://twitter.com/sujan_ai" class="contact-link" 
-                           style="color: var(--magenta); border-color: var(--magenta);">
-                            🐦 TWITTER
+                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="contact-link"
+                            style="color: var(--magenta); border-color: var(--magenta);">
+                            🤫 SECRET
                         </a>
                     </div>
-                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 10px;">
-                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>📍 Location:</strong> Available Worldwide (Remote)</p>
-                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>⏱️ Response:</strong> Within 24 hours</p>
+                    <div
+                        style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 10px;">
+                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>📍 Location:</strong> Available
+                            Worldwide (Remote)</p>
+                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>⏱️ Response:</strong> Within 24 hours
+                        </p>
                         <p style="font-size: 1rem;"><strong>🌐 Time Zone:</strong> Flexible</p>
                     </div>
                 </div>
@@ -997,7 +1295,7 @@
             const closeBtn = door.querySelector('.close-door-btn');
             const doorScene = door.querySelector('.door-scene');
 
-            door.addEventListener('click', function(e) {
+            door.addEventListener('click', function (e) {
                 // Don't open if clicking close button
                 if (e.target === closeBtn || closeBtn.contains(e.target)) {
                     return;
@@ -1056,7 +1354,7 @@
                     const scene = door.querySelector('.door-scene');
                     const rotateY = mouseX * 15;
                     const rotateX = -mouseY * 15;
-                    
+
                     scene.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
                 }
             });
@@ -1084,6 +1382,12 @@
 
         randomizeImages();
         setInterval(randomizeImages, 5000);
+
+        // Console Easter Egg
+        console.log("%c STOP! 🛑", "color: red; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 0px black;");
+        console.log("%c You found the console. You're either a dev or lost. Welcome to the Matrix. 💊", "color: #00ffff; font-family: monospace; font-size: 20px; background: #000; padding: 10px; border: 2px solid #00ffff;");
+        console.log("%c Hacking in progress... ██████████ 100%", "color: #00ff00; font-family: monospace; font-size: 14px;");
     </script>
 </body>
+
 </html>
