@@ -4,76 +4,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sujan Acharya | 3D Portal Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;900&family=Share+Tech+Mono&display=swap"
+    <title>Sujan Acharya | Neural Universe</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap"
         rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --cyan: #00ffff;
-            --magenta: #ff00ff;
-            --yellow: #ffff00;
-            --lime: #00ff00;
-            --orange: #ff6600;
-            --purple: #9933ff;
+            user-select: none;
         }
 
         body {
-            font-family: 'Exo 2', sans-serif;
-            background: radial-gradient(ellipse at center, #1a0033 0%, #000000 100%);
-            color: white;
-            overflow-x: hidden;
-            perspective: 2000px;
-            cursor: none;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
         }
 
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--cyan);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.15s ease;
-            box-shadow: 0 0 20px var(--cyan);
-        }
-
-        .cursor-dot {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            background: var(--cyan);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10001;
-            box-shadow: 0 0 10px var(--cyan);
-        }
-
-        /* Starfield Background */
-        .starfield {
+        #canvas-coontainer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: 1;
         }
 
-        .star {
+        /* --- UI Overlay --- */
+        #ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            /* Let clicks pass through to 3D */
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 120%);
+        }
+
+        /* Header / Identity */
+        .header {
             position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 1;
+            transition: all 1s ease;
+            pointer-events: auto;
         }
 
-        @keyframes twinkle {
+        .header.minimized {
+            top: 50px;
+            left: 50px;
+            transform: translate(0, 0);
+            text-align: left;
+            scale: 0.7;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: 15px;
+            color: #fff;
+            text-transform: uppercase;
+            /* Heavy Glow on Letters */
+            text-shadow:
+                0 0 10px #0ff,
+                0 0 20px #0ff,
+                0 0 40px #0ff,
+                0 0 80px #00f,
+                0 0 120px #00f;
+            animation: textPulse 3s infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            letter-spacing: 8px;
+            color: #0ff;
+            text-transform: uppercase;
+            margin-top: 10px;
+            text-shadow: 0 0 10px #0ff;
+            background: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 5px 20px;
+            border: 1px solid #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        @keyframes textPulse {
+            0% {
+                text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+            }
+
+            100% {
+                text-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff, 0 0 100px #00f;
+            }
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: absolute;
+            top: 40px;
+            right: 50px;
+            display: flex;
+            gap: 40px;
+            pointer-events: auto;
+        }
+
+        .nav-link {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            position: relative;
+            transition: 0.3s;
+            text-shadow: 0 0 10px #f0f;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #f0f;
+            transition: 0.3s;
+            box-shadow: 0 0 10px #f0f;
+        }
+
+        .nav-link:hover {
+            color: #f0f;
+            text-shadow: 0 0 20px #f0f, 0 0 40px #f0f;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* Info Panel (Holographic HUD) */
+        #info-panel {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            background: rgba(0, 10, 20, 0.85);
+            border-left: 2px solid #0ff;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: -20px 0 50px rgba(0, 255, 255, 0.2);
+            pointer-events: auto;
+        }
+
+        #info-panel.active {
+            transform: translateX(0);
+        }
+
+        #info-content h2 {
+            font-family: 'Orbitron';
+            font-size: 2.5rem;
+            color: #0ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #0ff;
+            border-bottom: 2px solid #f0f;
+            padding-bottom: 15px;
+        }
+
+        #info-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #ddd;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .tech-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            margin: 5px;
+            border: 1px solid #f0f;
+            color: #f0f;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+
+        #close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #close-btn:hover {
+            color: #f0f;
+            text-shadow: 0 0 10px #f0f;
+        }
+
+        /* Instructions */
+        .instructions {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
 
             0%,
             100% {
@@ -85,1429 +242,465 @@
             }
         }
 
-        /* Main Title */
-        .main-header {
-            position: relative;
-            text-align: center;
-            padding: 3rem 0;
-            z-index: 1;
-        }
-
-        .glitch-title {
-            font-size: 5rem;
-            font-weight: 900;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-            color: white;
-        }
-
-        .glitch-title::before,
-        .glitch-title::after {
-            content: attr(data-text);
-            position: absolute;
+        /* Loading */
+        #loader {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: #000;
-            /* Match background to hide main text */
-        }
-
-        .glitch-title::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--magenta);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim-1 5s infinite linear alternate-reverse;
-        }
-
-        .glitch-title::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--cyan);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim-2 5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim-1 {
-            0% {
-                clip: rect(30px, 9999px, 10px, 0);
-            }
-
-            5% {
-                clip: rect(70px, 9999px, 90px, 0);
-            }
-
-            10% {
-                clip: rect(55px, 9999px, 35px, 0);
-            }
-
-            15% {
-                clip: rect(10px, 9999px, 80px, 0);
-            }
-
-            20% {
-                clip: rect(95px, 9999px, 65px, 0);
-            }
-
-            25% {
-                clip: rect(20px, 9999px, 100px, 0);
-            }
-
-            30% {
-                clip: rect(85px, 9999px, 45px, 0);
-            }
-
-            35% {
-                clip: rect(5px, 9999px, 75px, 0);
-            }
-
-            40% {
-                clip: rect(60px, 9999px, 25px, 0);
-            }
-
-            45% {
-                clip: rect(40px, 9999px, 55px, 0);
-            }
-
-            50% {
-                clip: rect(90px, 9999px, 15px, 0);
-            }
-
-            55% {
-                clip: rect(15px, 9999px, 60px, 0);
-            }
-
-            60% {
-                clip: rect(75px, 9999px, 30px, 0);
-            }
-
-            65% {
-                clip: rect(25px, 9999px, 95px, 0);
-            }
-
-            70% {
-                clip: rect(50px, 9999px, 5px, 0);
-            }
-
-            75% {
-                clip: rect(80px, 9999px, 40px, 0);
-            }
-
-            80% {
-                clip: rect(35px, 9999px, 85px, 0);
-            }
-
-            85% {
-                clip: rect(65px, 9999px, 20px, 0);
-            }
-
-            90% {
-                clip: rect(10px, 9999px, 50px, 0);
-            }
-
-            95% {
-                clip: rect(45px, 9999px, 70px, 0);
-            }
-
-            100% {
-                clip: rect(20px, 9999px, 90px, 0);
-            }
-        }
-
-        @keyframes glitch-anim-2 {
-            0% {
-                clip: rect(65px, 9999px, 100px, 0);
-            }
-
-            5% {
-                clip: rect(15px, 9999px, 30px, 0);
-            }
-
-            10% {
-                clip: rect(80px, 9999px, 5px, 0);
-            }
-
-            15% {
-                clip: rect(40px, 9999px, 60px, 0);
-            }
-
-            20% {
-                clip: rect(95px, 9999px, 25px, 0);
-            }
-
-            25% {
-                clip: rect(10px, 9999px, 85px, 0);
-            }
-
-            30% {
-                clip: rect(70px, 9999px, 15px, 0);
-            }
-
-            35% {
-                clip: rect(35px, 9999px, 50px, 0);
-            }
-
-            40% {
-                clip: rect(90px, 9999px, 75px, 0);
-            }
-
-            45% {
-                clip: rect(5px, 9999px, 45px, 0);
-            }
-
-            50% {
-                clip: rect(60px, 9999px, 95px, 0);
-            }
-
-            55% {
-                clip: rect(25px, 9999px, 10px, 0);
-            }
-
-            60% {
-                clip: rect(85px, 9999px, 40px, 0);
-            }
-
-            65% {
-                clip: rect(45px, 9999px, 70px, 0);
-            }
-
-            70% {
-                clip: rect(20px, 9999px, 35px, 0);
-            }
-
-            75% {
-                clip: rect(75px, 9999px, 90px, 0);
-            }
-
-            80% {
-                clip: rect(50px, 9999px, 20px, 0);
-            }
-
-            85% {
-                clip: rect(30px, 9999px, 65px, 0);
-            }
-
-            90% {
-                clip: rect(55px, 9999px, 80px, 0);
-            }
-
-            95% {
-                clip: rect(100px, 9999px, 55px, 0);
-            }
-
-            100% {
-                clip: rect(5px, 9999px, 15px, 0);
-            }
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            letter-spacing: 8px;
-            color: var(--cyan);
-            margin-top: 1rem;
-            font-weight: 300;
-        }
-
-        .instruction {
-            margin-top: 2rem;
-            font-size: 1.2rem;
-            font-family: 'Share Tech Mono', monospace;
-            color: rgba(255, 255, 255, 0.6);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 0.4;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* Door Grid Container */
-        .door-grid {
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 4rem;
-            max-width: 1600px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-            z-index: 1;
-        }
-
-        /* Door Container */
-        .door-container {
-            position: relative;
-            height: 500px;
-            perspective: 1500px;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-
-        /* Hero Holo Styling */
-        .hero-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .about-holo {
-            width: 80%;
-            max-width: 800px;
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid var(--cyan);
-            padding: 2rem;
-            position: relative;
-            margin-top: 2rem;
-            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
-        }
-
-        .about-holo::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--cyan);
-            animation: holoScan 3s linear infinite;
-        }
-
-        @keyframes holoScan {
-            0% {
-                top: 0;
-                opacity: 1;
-            }
-
-            100% {
-                top: 100%;
-                opacity: 0;
-            }
-        }
-
-        .holo-content h3 {
-            color: var(--cyan);
-            font-family: 'Share Tech Mono';
-            letter-spacing: 2px;
-            border-bottom: 1px solid var(--cyan);
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-
-        .holo-content p {
-            color: #ccc;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .tech-ticker {
-            margin-top: 1.5rem;
-            color: var(--magenta);
-            font-weight: 700;
-            font-family: monospace;
-        }
-
-        /* Door Scene */
-        .door-scene {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .door-container:hover .door-scene {
-            transform: translateZ(30px) scale(1.05);
-        }
-
-        /* Door Frame */
-        /* Optimization: Removed framePulse animation and backdrop-filter to fix lag */
-        .door-frame {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
-            border: 2px solid;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-            transform-style: preserve-3d;
-            will-change: transform;
-            /* Performance Hint */
-        }
-
-        /* Unique Style: Deep Learning (Hexagon feel via clip-path or borders) */
-        .door-container[data-door="2"] .door-frame {
-            border-color: var(--magenta);
-            border-radius: 0;
-            border-width: 4px;
-            box-shadow: 0 0 20px var(--magenta);
-            background: rgba(255, 0, 255, 0.05);
-        }
-
-        /* Unique Style: Vision (Circular/Lens) */
-        /* Note: Keeping rect shape for doors but styling frame to look like a viewfinder */
-        .door-container[data-door="3"] .door-frame {
-            border: 1px dashed var(--yellow);
-            border-radius: 20px;
-        }
-
-        .door-container[data-door="3"] .door-frame::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            border: 1px solid var(--yellow);
-            border-radius: 15px;
-        }
-
-        /* Unique Style: NLP (Matrix Code) */
-        .door-container[data-door="4"] .door-frame {
-            border: none;
-            box-shadow: inset 0 0 20px var(--lime);
-            background: repeating-linear-gradient(0deg, rgba(0, 255, 0, 0.1) 0px, transparent 1px, transparent 4px);
-        }
-
-        /* Unique Style: Projects (Blueprint) */
-        .door-container[data-door="5"] .door-frame {
-            border: 2px solid var(--orange);
-            background-image: radial-gradient(var(--orange) 1px, transparent 1px);
-            background-size: 10px 10px;
-        }
-
-        /* Unique Style: Contact (Round/Signal) */
-        .door-container[data-door="6"] .door-frame {
-            border-radius: 50%;
-            /* Experimental shape change */
-            border: 4px double var(--purple);
-            width: 80%;
-            /* Smaller circular door */
-            left: 10%;
-        }
-
-        /* Adjust panels for circular door contact */
-        .door-container[data-door="6"] .door-left,
-        .door-container[data-door="6"] .door-right {
-            /* Keep rectangular panels but mask/hide excess if possible, or just style the frame */
-            border-right: none;
-            border-left: none;
-            background: rgba(26, 0, 51, 0.9);
-        }
-
-        .door-container:nth-child(1) .door-frame {
-            border-color: var(--cyan);
-        }
-
-        .door-container:nth-child(2) .door-frame {
-            border-color: var(--magenta);
-        }
-
-        .door-container:nth-child(3) .door-frame {
-            border-color: var(--yellow);
-        }
-
-        .door-container:nth-child(4) .door-frame {
-            border-color: var(--lime);
-        }
-
-        .door-container:nth-child(5) .door-frame {
-            border-color: var(--orange);
-        }
-
-        .door-container:nth-child(6) .door-frame {
-            border-color: var(--purple);
-        }
-
-        /* Door Panels */
-        .door-left,
-        .door-right {
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a0033 0%, #000000 100%);
-            border: 2px solid;
-            transform-origin: center;
-            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            overflow: hidden;
-            transform-style: preserve-3d;
-        }
-
-        .door-left {
-            left: 0;
-            border-right: 1px solid;
-            transform-origin: left center;
-        }
-
-        .door-right {
-            right: 0;
-            border-left: 1px solid;
-            transform-origin: right center;
-        }
-
-        .door-container:nth-child(1) .door-left,
-        .door-container:nth-child(1) .door-right {
-            border-color: var(--cyan);
-        }
-
-        .door-container:nth-child(2) .door-left,
-        .door-container:nth-child(2) .door-right {
-            border-color: var(--magenta);
-        }
-
-        .door-container:nth-child(3) .door-left,
-        .door-container:nth-child(3) .door-right {
-            border-color: var(--yellow);
-        }
-
-        .door-container:nth-child(4) .door-left,
-        .door-container:nth-child(4) .door-right {
-            border-color: var(--lime);
-        }
-
-        .door-container:nth-child(5) .door-left,
-        .door-container:nth-child(5) .door-right {
-            border-color: var(--orange);
-        }
-
-        .door-container:nth-child(6) .door-left,
-        .door-container:nth-child(6) .door-right {
-            border-color: var(--purple);
-        }
-
-        /* Door Open State */
-        .door-container.open .door-left {
-            transform: perspective(1200px) rotateY(-130deg);
-        }
-
-        .door-container.open .door-right {
-            transform: perspective(1200px) rotateY(130deg);
-        }
-
-        /* Door Images */
-        .door-image {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-            filter: brightness(0.7) contrast(1.2);
-            mix-blend-mode: overlay;
-        }
-
-        /* Door Icon/Label */
-        .door-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 10;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .door-container.open .door-label {
-            opacity: 0;
-        }
-
-        .door-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 0 20px currentColor);
-            animation: iconFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes iconFloat {
-
-            0%,
-            100% {
-                transform: translateY(0px) rotateY(0deg);
-            }
-
-            50% {
-                transform: translateY(-15px) rotateY(180deg);
-            }
-        }
-
-        .door-icon {
-            font-size: 5rem;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 0 30px currentColor);
-            animation: medalSpin 6s linear infinite;
-            transform-style: preserve-3d;
-            backface-visibility: visible;
-            display: inline-block;
-            transition: all 0.5s ease;
-        }
-
-        .door-container:hover .door-icon {
-            animation-duration: 1s;
-            transform: scale(1.3);
-            filter: drop-shadow(0 0 50px currentColor);
-        }
-
-        @keyframes medalSpin {
-            0% {
-                transform: rotateY(0deg);
-            }
-
-            100% {
-                transform: rotateY(360deg);
-            }
-        }
-
-        .door-title {
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            text-shadow: 0 0 20px currentColor;
-        }
-
-        .door-container:nth-child(1) .door-icon,
-        .door-container:nth-child(1) .door-title {
-            color: var(--cyan);
-        }
-
-        .door-container:nth-child(2) .door-icon,
-        .door-container:nth-child(2) .door-title {
-            color: var(--magenta);
-        }
-
-        .door-container:nth-child(3) .door-icon,
-        .door-container:nth-child(3) .door-title {
-            color: var(--yellow);
-        }
-
-        .door-container:nth-child(4) .door-icon,
-        .door-container:nth-child(4) .door-title {
-            color: var(--lime);
-        }
-
-        .door-container:nth-child(5) .door-icon,
-        .door-container:nth-child(5) .door-title {
-            color: var(--orange);
-        }
-
-        .door-container:nth-child(6) .door-icon,
-        .door-container:nth-child(6) .door-title {
-            color: var(--purple);
-        }
-
-        /* Content Behind Door */
-        .door-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            padding: 2.5rem;
-            background: rgba(0, 0, 0, 0.95);
-            border: 3px solid;
-            border-radius: 10px;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s ease 0.4s;
-            overflow-y: auto;
-            z-index: -1;
-        }
-
-        .door-container.open .door-content {
-            opacity: 1;
-            transform: scale(1);
-            z-index: 5;
-        }
-
-        .door-container:nth-child(1) .door-content {
-            border-color: var(--cyan);
-            box-shadow: inset 0 0 50px rgba(0, 255, 255, 0.2);
-        }
-
-        .door-container:nth-child(2) .door-content {
-            border-color: var(--magenta);
-            box-shadow: inset 0 0 50px rgba(255, 0, 255, 0.2);
-        }
-
-        .door-container:nth-child(3) .door-content {
-            border-color: var(--yellow);
-            box-shadow: inset 0 0 50px rgba(255, 255, 0, 0.2);
-        }
-
-        .door-container:nth-child(4) .door-content {
-            border-color: var(--lime);
-            box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2);
-        }
-
-        .door-container:nth-child(5) .door-content {
-            border-color: var(--orange);
-            box-shadow: inset 0 0 50px rgba(255, 102, 0, 0.2);
-        }
-
-        .door-container:nth-child(6) .door-content {
-            border-color: var(--purple);
-            box-shadow: inset 0 0 50px rgba(153, 51, 255, 0.2);
-        }
-
-        .content-header {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            letter-spacing: 3px;
-        }
-
-        .content-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .content-list {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-
-        .content-list li {
-            padding: 0.8rem 0;
-            padding-left: 2rem;
-            position: relative;
-            border-left: 2px solid;
-            margin-bottom: 0.5rem;
-        }
-
-        .content-list li::before {
-            content: '▸';
-            position: absolute;
-            left: 0.5rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        /* Tech Tags */
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-
-        .tech-badge {
-            padding: 0.6rem 1.2rem;
-            border: 2px solid;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 15px currentColor;
-        }
-
-        /* Stats Grid */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .stat-box {
-            padding: 1.5rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.7;
-        }
-
-        /* Close Button */
-        .close-door-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border: 3px solid;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
             z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease;
         }
 
-        .close-door-btn:hover {
-            transform: rotate(90deg) scale(1.2);
-            box-shadow: 0 0 30px currentColor;
+        .loader-text {
+            font-family: 'Orbitron';
+            font-size: 2rem;
+            color: #0ff;
+            text-shadow: 0 0 20px #0ff;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
         }
 
-        /* Contact Links */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 2rem;
+        .loader-bar {
+            width: 300px;
+            height: 4px;
+            background: #111;
+            position: relative;
+            overflow: hidden;
         }
 
-        .contact-link {
-            padding: 1.2rem;
-            border: 2px solid;
-            border-radius: 10px;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.5);
+        .loader-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #0ff;
+            box-shadow: 0 0 20px #0ff;
+            animation: load 2s ease-in-out forwards;
         }
 
-        .contact-link:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px currentColor;
+        @keyframes load {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 100%;
+            }
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            .glitch-title {
+        @media(max-width: 768px) {
+            h1 {
                 font-size: 3rem;
                 letter-spacing: 5px;
             }
 
-            .door-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+            .header.minimized {
+                left: 20px;
+                top: 20px;
+                scale: 0.5;
+                transform-origin: top left;
             }
 
-            .door-container {
-                height: 450px;
+            #info-panel {
+                width: 100%;
             }
 
-            .stats-container,
-            .contact-grid {
-                grid-template-columns: 1fr;
+            .nav-bar {
+                width: 100%;
+                justify-content: center;
+                right: 0;
+                background: rgba(0, 0, 0, 0.8);
+                top: 0;
+                padding: 10px 0;
             }
-        }
-
-        /* Scrollbar */
-        .door-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .door-content::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .door-content::-webkit-scrollbar-thumb {
-            background: var(--cyan);
-            border-radius: 10px;
-        }
-
-        /* Loading Animation */
-        @keyframes doorAppear {
-            from {
-                opacity: 0;
-                transform: translateY(100px) rotateX(-20deg);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) rotateX(0);
-            }
-        }
-
-        .door-container {
-            animation: doorAppear 0.8s ease-out backwards;
-        }
-
-        .door-container:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .door-container:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .door-container:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .door-container:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .door-container:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .door-container:nth-child(6) {
-            animation-delay: 0.6s;
-        }
-
-        /* Particle Effects */
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: particleFade 2s ease-out forwards;
-        }
-
-        @keyframes particleFade {
-            to {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-        }
-
-        /* Top Navigation */
-        .top-nav {
-            position: fixed;
-            top: 30px;
-            right: 50px;
-            display: flex;
-            gap: 2rem;
-            z-index: 2000;
-            mix-blend-mode: exclusion;
-        }
-
-        .top-nav a {
-            color: var(--cyan);
-            text-decoration: none;
-            font-family: 'Share Tech Mono', monospace;
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .top-nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--magenta);
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px var(--magenta);
-        }
-
-        .top-nav a:hover {
-            color: var(--magenta);
-            text-shadow: 0 0 15px var(--magenta);
-        }
-
-        .top-nav a:hover::after {
-            width: 100%;
         }
     </style>
+    <!-- Three.js from CDN -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
 </head>
 
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-nav">
-        <a href="https://github.com/sujan-acharya" target="_blank">GITHUB</a>
-        <a href="mailto:sujan.acharya@example.com">EMAIL</a>
-        <a href="#" onclick="document.querySelector('[data-door=\'6\']').click(); return false;">CONTACT</a>
-    </nav>
 
-    <!-- Custom Cursor -->
-    <div class="custom-cursor"></div>
-    <div class="cursor-dot"></div>
+    <div id="loader">
+        <div class="loader-text">INITIALIZING NEURAL CORE...</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
 
-    <!-- Starfield -->
-    <div class="starfield" id="starfield"></div>
+    <!-- UI Layer -->
+    <div id="ui-layer">
+        <nav class="nav-bar">
+            <a href="https://github.com/sujan-acharya" class="nav-link" target="_blank">GITHUB</a>
+            <a href="mailto:sujan.acharya@example.com" class="nav-link">EMAIL</a>
+            <a href="#" class="nav-link" onclick="openContact()">CONTACT</a>
+        </nav>
 
-    <!-- Main Header -->
-    <!-- Main Header & About Hero -->
-    <div class="hero-container">
-        <div class="main-header">
-            <h1 class="glitch-title" data-text="SUJAN ACHARYA">SUJAN ACHARYA</h1>
-            <p class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</p>
+        <div class="header">
+            <h1>SUJAN ACHARYA</h1>
+            <div class="subtitle">AI / ML ENGINEER | COMPUTER ENGINEERING STUDENT</div>
         </div>
 
-        <!-- Holographic ID / About Section -->
-        <div class="about-holo">
-            <div class="holo-content">
-                <h3>PROFILE_SCAN_COMPLETE</h3>
-                <p><strong>Name:</strong> Sujan Acharya</p>
-                <p><strong>Role:</strong> Neural Architect</p>
-                <p><strong>Status:</strong> Building the Future</p>
-                <p class="holo-desc">
-                    Specializing in Deep Learning, Computer Vision, and Generative AI.
-                    Merging chaotic data into structured intelligence.
-                </p>
-                <div class="tech-ticker">TensorFlow • PyTorch • OpenCV • LLMs • NeRF</div>
+        <div class="instructions">[ CLICK PLANETS TO EXPLORE DATA NODES ]</div>
+
+        <!-- Info Panel -->
+        <div id="info-panel">
+            <div id="close-btn" onclick="closeInfo()">✕</div>
+            <div id="info-content">
+                <!-- Content injected via JS -->
             </div>
         </div>
     </div>
 
-    <!-- Door Grid -->
-    <div class="door-grid">
+    <!-- 3D Canvas -->
+    <div id="canvas-coontainer"></div>
 
-        <!-- Door 1: Removed (Now Hero Section) -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-        <!-- Door 2: Deep Learning -->
-        <div class="door-container" data-door="2">
-            <div class="orbital-ring ring-1"></div>
-            <div class="orbital-ring ring-2"></div>
-            <div class="orbital-ring ring-3"></div>
+        // --- Config ---
+        const config = {
+            bloomStrength: 1.5,
+            bloomRadius: 0.4,
+            bloomThreshold: 0,
+            coreSize: 2,
+            orbitSpeed: 0.002
+        };
 
-            <div class="door-scene">
-                <div class="door-frame">
-                    <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400" alt="AI"
-                            class="door-image">
-                    </div>
-                    <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=400" alt="Network"
-                            class="door-image">
-                    </div>
-
-                    <div class="door-label">
-                        <div class="door-icon">🔥</div>
-                        <div class="door-title">DEEP LEARNING</div>
-                    </div>
-                </div>
-
-                <div class="door-content">
-                    <div class="close-door-btn" style="color: var(--magenta); border-color: var(--magenta);">✕</div>
-                    <h2 class="content-header" style="color: var(--magenta);">NEURAL NETWORKS MASTERY</h2>
-                    <p class="content-text">
-                        Expert in designing, training, and optimizing state-of-the-art neural network architectures
-                        for complex problem-solving across multiple domains.
-                    </p>
-                    <ul class="content-list">
-                        <li style="border-color: var(--magenta); color: var(--magenta);">
-                            <strong>CNNs:</strong> Convolutional Neural Networks for image processing and computer
-                            vision
-                        </li>
-                        <li style="border-color: var(--magenta); color: var(--magenta);">
-                            <strong>RNNs & LSTMs:</strong> Recurrent networks for sequential data and time series
-                        </li>
-                        <li style="border-color: var(--magenta); color: var(--magenta);">
-                            <strong>Transformers:</strong> Attention-based architectures for NLP and vision tasks
-                        </li>
-                        <li style="border-color: var(--magenta); color: var(--magenta);">
-                            <strong>GANs:</strong> Generative models for synthetic data creation
-                        </li>
-                        <li style="border-color: var(--magenta); color: var(--magenta);">
-                            <strong>AutoEncoders:</strong> Dimensionality reduction and feature learning
-                        </li>
-                    </ul>
-                    <div class="tech-stack">
-                        <span class="tech-badge"
-                            style="color: var(--magenta); border-color: var(--magenta);">TensorFlow</span>
-                        <span class="tech-badge"
-                            style="color: var(--magenta); border-color: var(--magenta);">PyTorch</span>
-                        <span class="tech-badge"
-                            style="color: var(--magenta); border-color: var(--magenta);">Keras</span>
-                        <span class="tech-badge" style="color: var(--magenta); border-color: var(--magenta);">JAX</span>
-                        <span class="tech-badge"
-                            style="color: var(--magenta); border-color: var(--magenta);">CUDA</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Door 3: Computer Vision -->
-        <div class="door-container" data-door="3">
-            <div class="orbital-ring ring-1"></div>
-            <div class="orbital-ring ring-2"></div>
-            <div class="orbital-ring ring-3"></div>
-
-            <div class="door-scene">
-                <div class="door-frame">
-                    <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400" alt="Vision"
-                            class="door-image">
-                    </div>
-                    <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=400" alt="Eye"
-                            class="door-image">
-                    </div>
-
-                    <div class="door-label">
-                        <div class="door-icon">👁️</div>
-                        <div class="door-title">VISION AI</div>
-                    </div>
-                </div>
-
-                <div class="door-content">
-                    <div class="close-door-btn" style="color: var(--yellow); border-color: var(--yellow);">✕</div>
-                    <h2 class="content-header" style="color: var(--yellow);">COMPUTER VISION EXPERT</h2>
-                    <p class="content-text">
-                        Building advanced computer vision systems that perceive, understand, and interpret
-                        visual information with superhuman accuracy and speed.
-                    </p>
-                    <ul class="content-list">
-                        <li style="border-color: var(--yellow); color: var(--yellow);">
-                            <strong>Object Detection:</strong> Real-time detection using YOLO, SSD, and R-CNN
-                        </li>
-                        <li style="border-color: var(--yellow); color: var(--yellow);">
-                            <strong>Image Segmentation:</strong> Semantic and instance segmentation with U-Net
-                        </li>
-                        <li style="border-color: var(--yellow); color: var(--yellow);">
-                            <strong>Face Recognition:</strong> Biometric identification systems
-                        </li>
-                        <li style="border-color: var(--yellow); color: var(--yellow);">
-                            <strong>OCR Systems:</strong> Text extraction from images and documents
-                        </li>
-                        <li style="border-color: var(--yellow); color: var(--yellow);">
-                            <strong>Medical Imaging:</strong> Disease detection from X-rays and MRI scans
-                        </li>
-                        <li style="border-color: var(--yellow); color: var(--yellow);">
-                            <strong>Style Transfer:</strong> Artistic AI and image generation
-                        </li>
-                    </ul>
-                    <div class="tech-stack">
-                        <span class="tech-badge"
-                            style="color: var(--yellow); border-color: var(--yellow);">OpenCV</span>
-                        <span class="tech-badge" style="color: var(--yellow); border-color: var(--yellow);">YOLO</span>
-                        <span class="tech-badge"
-                            style="color: var(--yellow); border-color: var(--yellow);">ResNet</span>
-                        <span class="tech-badge"
-                            style="color: var(--yellow); border-color: var(--yellow);">EfficientNet</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Door 4: NLP & LLMs -->
-        <div class="door-container" data-door="4">
-            <div class="orbital-ring ring-1"></div>
-            <div class="orbital-ring ring-2"></div>
-            <div class="orbital-ring ring-3"></div>
-
-            <div class="door-scene">
-                <div class="door-frame">
-                    <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1676277791608-ac522707146d?w=400" alt="Language"
-                            class="door-image">
-                    </div>
-                    <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1675271591471-0b8f47d02271?w=400" alt="Chat"
-                            class="door-image">
-                    </div>
-
-                    <div class="door-label">
-                        <div class="door-icon">💬</div>
-                        <div class="door-title">NLP & LLMs</div>
-                    </div>
-                </div>
-
-                <div class="door-content">
-                    <div class="close-door-btn" style="color: var(--lime); border-color: var(--lime);">✕</div>
-                    <h2 class="content-header" style="color: var(--lime);">LANGUAGE AI ARCHITECT</h2>
-                    <p class="content-text">
-                        Creating intelligent language models and conversational AI systems that understand
-                        context, generate human-like text, and process natural language with precision.
-                    </p>
-                    <ul class="content-list">
-                        <li style="border-color: var(--lime); color: var(--lime);">
-                            <strong>LLM Development:</strong> Fine-tuning GPT, BERT, and T5 models
-                        </li>
-                        <li style="border-color: var(--lime); color: var(--lime);">
-                            <strong>Chatbots & Assistants:</strong> Context-aware conversational agents
-                        </li>
-                        <li style="border-color: var(--lime); color: var(--lime);">
-                            <strong>Sentiment Analysis:</strong> Emotion detection from text data
-                        </li>
-                        <li style="border-color: var(--lime); color: var(--lime);">
-                            <strong>NER:</strong> Named Entity Recognition and extraction
-                        </li>
-                        <li style="border-color: var(--lime); color: var(--lime);">
-                            <strong>Text Summarization:</strong> Automatic content condensation
-                        </li>
-                        <li style="border-color: var(--lime); color: var(--lime);">
-                            <strong>Machine Translation:</strong> Multi-language neural translation
-                        </li>
-                    </ul>
-                    <div class="tech-stack">
-                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">GPT-4</span>
-                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">BERT</span>
-                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">LangChain</span>
-                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">Hugging
-                            Face</span>
-                        <span class="tech-badge" style="color: var(--lime); border-color: var(--lime);">spaCy</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Door 5: Projects -->
-        <div class="door-container" data-door="5">
-            <div class="orbital-ring ring-1"></div>
-            <div class="orbital-ring ring-2"></div>
-            <div class="orbital-ring ring-3"></div>
-
-            <div class="door-scene">
-                <div class="door-frame">
-                    <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400" alt="Projects"
-                            class="door-image">
-                    </div>
-                    <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400" alt="Tech"
-                            class="door-image">
-                    </div>
-
-                    <div class="door-label">
-                        <div class="door-icon">🚀</div>
-                        <div class="door-title">PROJECTS</div>
-                    </div>
-                </div>
-
-                <div class="door-content">
-                    <div class="close-door-btn" style="color: var(--orange); border-color: var(--orange);">✕</div>
-                    <h2 class="content-header" style="color: var(--orange);">GOD TIER SH*T</h2>
-                    <ul class="content-list">
-                        <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>NeRF Implementation:</strong>
-                            Reconstructing 3D reality from 2D chaos. Neural Radiance Fields that make traditional
-                            rendering look like Pong.
-                        </li>
-                        <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>MaximumIPO:</strong>
-                            Predicting the market before the market knows it exists. (Stonks only go up 🚀).
-                        </li>
-                        <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>VARAutomation:</strong>
-                            Automating the un-automatable. Because manual labor is for mortals.
-                        </li>
-                        <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Video Captioning:</strong>
-                            Teaching AI to watch movies and tell me if they're good. (It mostly just captions them
-                            accurately).
-                        </li>
-                        <li style="border-color: var(--orange); color: var(--orange);">
-                            <strong>Medicine Recognition:</strong>
-                            AI Doctor in your pocket. Identifying meds faster than a pharmacist on espresso.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Door 6: Contact -->
-        <div class="door-container" data-door="6">
-            <div class="orbital-ring ring-1"></div>
-            <div class="orbital-ring ring-2"></div>
-            <div class="orbital-ring ring-3"></div>
-
-            <div class="door-scene">
-                <div class="door-frame">
-                    <div class="door-left">
-                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=400" alt="Contact"
-                            class="door-image">
-                    </div>
-                    <div class="door-right">
-                        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400" alt="Connect"
-                            class="door-image">
-                    </div>
-
-                    <div class="door-label">
-                        <div class="door-icon">📡</div>
-                        <div class="door-title">CONNECT</div>
-                    </div>
-                </div>
-
-                <div class="door-content">
-                    <div class="close-door-btn" style="color: var(--purple); border-color: var(--purple);">✕</div>
-                    <h2 class="content-header" style="color: var(--purple);">LET'S BUILD THE FUTURE</h2>
-                    <p class="content-text">
-                        Looking for AI consultation, collaboration, or full-time opportunities?
-                        I'm available for freelance projects, research partnerships, and innovative ventures.
-                    </p>
-                    <p class="content-text">
-                        <strong>Specialties:</strong> AI Strategy, ML Model Development, Computer Vision Solutions,
-                        NLP Applications, AI Integration, Technical Consulting
-                    </p>
-                    <div class="contact-grid">
-                        <a href="mailto:sujan.acharya@example.com" class="contact-link"
-                            style="color: var(--purple); border-color: var(--purple);">
-                            📧 EMAIL
-                        </a>
-                        <a href="https://github.com/sujan-acharya" class="contact-link"
-                            style="color: var(--lime); border-color: var(--lime);">
-                            🐙 GITHUB
-                        </a>
-                        <a href="#" class="contact-link" style="color: var(--cyan); border-color: var(--cyan);">
-                            ☕ OTHER
-                        </a>
-                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="contact-link"
-                            style="color: var(--magenta); border-color: var(--magenta);">
-                            🤫 SECRET
-                        </a>
-                    </div>
-                    <div
-                        style="margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 10px;">
-                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>📍 Location:</strong> Available
-                            Worldwide (Remote)</p>
-                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>⏱️ Response:</strong> Within 24 hours
-                        </p>
-                        <p style="font-size: 1rem;"><strong>🌐 Time Zone:</strong> Flexible</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        // Custom Cursor
-        const cursor = document.querySelector('.custom-cursor');
-        const cursorDot = document.querySelector('.cursor-dot');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-        });
-
-        // Starfield Generation
-        const starfield = document.getElementById('starfield');
-        for (let i = 0; i < 200; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.width = Math.random() * 3 + 'px';
-            star.style.height = star.style.width;
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starfield.appendChild(star);
-        }
-
-        // Door Interaction
-        const doors = document.querySelectorAll('.door-container');
-
-        doors.forEach(door => {
-            const closeBtn = door.querySelector('.close-door-btn');
-            const doorScene = door.querySelector('.door-scene');
-
-            door.addEventListener('click', function (e) {
-                // Don't open if clicking close button
-                if (e.target === closeBtn || closeBtn.contains(e.target)) {
-                    return;
-                }
-
-                // Close all other doors
-                doors.forEach(otherDoor => {
-                    if (otherDoor !== door) {
-                        otherDoor.classList.remove('open');
-                    }
-                });
-
-                // Toggle current door
-                this.classList.toggle('open');
-
-                // Create particle effect
-                createParticles(e.clientX, e.clientY);
-            });
-
-            // Close button
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                door.classList.remove('open');
-            });
-        });
-
-        // Particle Effect
-        function createParticles(x, y) {
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
-                document.body.appendChild(particle);
-
-                setTimeout(() => particle.remove(), 2000);
+        // --- Data: Projects / Planets ---
+        const projects = [
+            {
+                id: 'nerf',
+                name: 'NeRF ENGINE',
+                desc: 'Neural Radiance Fields implementation. Reconstructing 3D scenes from 2D images using deep neural networks. Creating volumetric representations with view-dependent radiance.',
+                tech: ['Python', 'PyTorch', 'CUDA', '3D Vision'],
+                color: 0xff3300,
+                size: 0.8,
+                distance: 8,
+                speed: 0.005,
+                angle: 0
+            },
+            {
+                id: 'ipo',
+                name: 'MaximumIPO',
+                desc: 'Stock market prediction engine specializing in IPO performance analysis. Utilizing LSTM/Transformer architectures to forecast market trends and opening prices.',
+                tech: ['TensorFlow', 'Pandas', 'Timeseries', 'FinTech'],
+                color: 0x00ff00,
+                size: 0.6,
+                distance: 12,
+                speed: 0.003,
+                angle: 2
+            },
+            {
+                id: 'video',
+                name: 'VIDEO CAPTIONING',
+                desc: 'Multimodal AI system that watches videos and generates accurate, context-aware captions in real-time. Bridges Computer Vision and NLP.',
+                tech: ['Transformers', 'OpenCV', 'NLP', 'React'],
+                color: 0x0066ff,
+                size: 0.7,
+                distance: 15,
+                speed: 0.004,
+                angle: 4
+            },
+            {
+                id: 'med',
+                name: 'MEDICINE RECOGNITION',
+                desc: 'Mobile-first AI doctor assistant. Identifies pills and medications from camera images, providing dosage info and contraindications instantly.',
+                tech: ['CNN', 'MobileNet', 'HealthTech', 'Flutter'],
+                color: 0xff00ff,
+                size: 0.5,
+                distance: 19,
+                speed: 0.002,
+                angle: 5
+            },
+            {
+                id: 'var',
+                name: 'VAR AUTOMATION',
+                desc: 'Industrial automation toolkit utilizing Variable Auto-Regressive models for complex system control and anomaly detection.',
+                tech: ['Robotics', 'Control Systems', 'C++', 'Python'],
+                color: 0xffff00,
+                size: 0.9,
+                distance: 22,
+                speed: 0.001,
+                angle: 1
+            },
+            {
+                id: 'contact',
+                name: 'CONTACT SIGNAL',
+                desc: 'Establish a secure link. Open for collaborations, freelance, and research opportunities.',
+                tech: ['Email', 'LinkedIn', 'Signal'],
+                color: 0xffffff,
+                size: 0.4,
+                distance: 25,
+                speed: 0.006,
+                angle: 3
             }
+        ];
+
+        // --- Init ---
+        const container = document.getElementById('canvas-coontainer');
+        const scene = new THREE.Scene();
+        // Fog for depth
+        scene.fog = new THREE.FogExp2(0x000000, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 30;
+        camera.position.y = 10;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.toneMapping = THREE.ReinhardToneMapping;
+        container.appendChild(renderer.domElement);
+
+        // --- Controls ---
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 50;
+        controls.minDistance = 5;
+
+        // --- Post Processing (BLOOM) ---
+        const renderScene = new RenderPass(scene, camera);
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        bloomPass.threshold = config.bloomThreshold;
+        bloomPass.strength = config.bloomStrength;
+        bloomPass.radius = config.bloomRadius;
+
+        const composer = new EffectComposer(renderer);
+        composer.addPass(renderScene);
+        composer.addPass(bloomPass);
+
+        // --- Objects ---
+
+        // 1. The Core (Sun/Identity)
+        const coreGeo = new THREE.IcosahedronGeometry(config.coreSize, 4);
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: 0x00ffff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(core);
+
+        // Inner glowing solid core
+        const coreInnerGeo = new THREE.IcosahedronGeometry(config.coreSize * 0.6, 2);
+        const coreInnerMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+        const coreInner = new THREE.Mesh(coreInnerGeo, coreInnerMat);
+        core.add(coreInner);
+
+        // 2. Planets (Orbs)
+        const planetMeshes = [];
+        const orbitLines = [];
+
+        projects.forEach(p => {
+            // Orbit path (Ring)
+            const orbitGeo = new THREE.RingGeometry(p.distance - 0.05, p.distance + 0.05, 64);
+            const orbitMat = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.1
+            });
+            const orbit = new THREE.Mesh(orbitGeo, orbitMat);
+            orbit.rotation.x = Math.PI / 2;
+            scene.add(orbit);
+            orbitLines.push(orbit);
+
+            // Planet Group (Pivot)
+            const pivot = new THREE.Object3D();
+            scene.add(pivot);
+
+            // Planet Mesh
+            const geometry = new THREE.SphereGeometry(p.size, 32, 32);
+            const material = new THREE.MeshStandardMaterial({
+                color: p.color,
+                emissive: p.color,
+                emissiveIntensity: 2,
+                roughness: 0.4,
+                metalness: 0.8
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+
+            // Initial Position
+            mesh.position.x = p.distance;
+
+            pivot.add(mesh);
+
+            // Metadata for interaction
+            mesh.userData = {
+                isPlanet: true,
+                project: p,
+                pivot: pivot,
+                originalScale: p.size
+            };
+
+            planetMeshes.push(mesh);
+        });
+
+        // 3. Stars (Particles)
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 5000;
+        const starPos = new Float32Array(starCount * 3);
+
+        for (let i = 0; i < starCount * 3; i++) {
+            starPos[i] = (Math.random() - 0.5) * 200;
         }
 
-        // Close doors on ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                doors.forEach(door => door.classList.remove('open'));
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        const starMat = new THREE.PointsMaterial({
+            size: 0.1,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.8
+        });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
+
+        // --- Lights ---
+        const pointLight = new THREE.PointLight(0xffffff, 2, 100);
+        pointLight.position.set(0, 0, 0);
+        scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        // --- Interaction ---
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let hoveredObject = null;
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        window.addEventListener('click', (event) => {
+            if (hoveredObject) {
+                focusOnPlanet(hoveredObject);
+            } else {
+                // Clicking void resets view?
+                // resetView();
             }
         });
 
-        // 3D Mouse Move Effect
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth - 0.5;
-            const mouseY = e.clientY / window.innerHeight - 0.5;
+        function focusOnPlanet(mesh) {
+            const p = mesh.userData.project;
 
-            doors.forEach((door, index) => {
-                if (!door.classList.contains('open')) {
-                    const scene = door.querySelector('.door-scene');
-                    const rotateY = mouseX * 15;
-                    const rotateX = -mouseY * 15;
+            // Move Camera
+            // We'll just minimize header and show info panel
+            document.querySelector('.header').classList.add('minimized');
 
-                    scene.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-                }
-            });
-        });
+            // Populate Info
+            const panel = document.getElementById('info-content');
+            panel.innerHTML = `
+                <h2 style="color: #${p.color.toString(16)}">${p.name}</h2>
+                <p>${p.desc}</p>
+                <div style="margin-top: 20px;">
+                    ${p.tech.map(t => `<span class="tech-tag" style="border-color: #${p.color.toString(16)}; color: #${p.color.toString(16)}">${t}</span>`).join('')}
+                </div>
+            `;
 
-        // Cursor scale on hover
-        doors.forEach(door => {
-            door.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(2)';
-                cursor.style.borderColor = 'var(--magenta)';
-            });
-            door.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursor.style.borderColor = 'var(--cyan)';
-            });
-        });
-
-        // Random image rotation on load
-        function randomizeImages() {
-            const images = document.querySelectorAll('.door-image');
-            images.forEach(img => {
-                img.style.transform = `scale(${1 + Math.random() * 0.2}) rotate(${Math.random() * 10 - 5}deg)`;
-            });
+            // Show Panel
+            document.getElementById('info-panel').classList.add('active');
         }
 
-        randomizeImages();
-        setInterval(randomizeImages, 5000);
+        window.closeInfo = function () {
+            document.getElementById('info-panel').classList.remove('active');
+            document.querySelector('.header').classList.remove('minimized');
+        };
 
-        // Console Easter Egg
-        console.log("%c STOP! 🛑", "color: red; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 0px black;");
-        console.log("%c You found the console. You're either a dev or lost. Welcome to the Matrix. 💊", "color: #00ffff; font-family: monospace; font-size: 20px; background: #000; padding: 10px; border: 2px solid #00ffff;");
-        console.log("%c Hacking in progress... ██████████ 100%", "color: #00ff00; font-family: monospace; font-size: 14px;");
+        window.openContact = function () {
+            // Find contact planet and trigger focus
+            const contactPlanet = planetMeshes.find(m => m.userData.project.id === 'contact');
+            if (contactPlanet) focusOnPlanet(contactPlanet);
+        };
+
+        // --- Animation Loop ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = clock.getElapsedTime();
+
+            // Core Pulse
+            const scale = 1 + Math.sin(time * 2) * 0.1;
+            core.scale.set(scale, scale, scale);
+            core.rotation.y += 0.005;
+            core.rotation.z += 0.002;
+
+            // Planet Orbits
+            planetMeshes.forEach(mesh => {
+                const p = mesh.userData.project;
+                mesh.userData.pivot.rotation.y += p.speed;
+
+                // Self rotate
+                mesh.rotation.y += 0.02;
+            });
+
+            // Stars Movement (Warp effect)
+            stars.rotation.y -= 0.0005;
+
+            // Raycasting
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(planetMeshes);
+
+            if (intersects.length > 0) {
+                if (hoveredObject !== intersects[0].object) {
+                    hoveredObject = intersects[0].object;
+                    document.body.style.cursor = 'pointer';
+                    // Hover scale effect
+                    hoveredObject.scale.set(hoveredObject.userData.originalScale * 1.5, hoveredObject.userData.originalScale * 1.5, hoveredObject.userData.originalScale * 1.5);
+                }
+            } else {
+                if (hoveredObject) {
+                    // Reset scale
+                    hoveredObject.scale.set(hoveredObject.userData.originalScale, hoveredObject.userData.originalScale, hoveredObject.userData.originalScale);
+                    hoveredObject = null;
+                    document.body.style.cursor = 'default';
+                }
+            }
+
+            controls.update();
+            composer.render();
+        }
+
+        // --- Resize ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start
+        setTimeout(() => {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => document.getElementById('loader').remove(), 1000);
+        }, 2000);
+
+        animate();
     </script>
 </body>
 
