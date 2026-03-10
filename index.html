@@ -191,6 +191,17 @@
             fill: #000;
         }
 
+        /* Instagram icon special hover - gradient like IG brand */
+        .nav-icon--insta:hover {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
+            box-shadow: 0 0 20px #d6249f !important;
+        }
+
+        .nav-icon--insta:hover svg path {
+            fill: #fff !important;
+        }
+
+
         /* --- Header --- */
         header {
             text-align: center;
@@ -646,6 +657,225 @@
             }
         }
 
+        /* --- Education Section Card --- */
+        .education-section {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.6), rgba(10, 10, 10, 0.8));
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-dim);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 60px;
+            animation: fadeIn 1s ease-out 0.3s backwards, float 6s ease-in-out infinite 1s;
+        }
+
+        .edu-heading {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 28px;
+        }
+
+        .edu-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding-left: 8px;
+            position: relative;
+        }
+
+        /* Vertical connecting line */
+        .edu-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-dim), transparent);
+        }
+
+        .edu-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 22px;
+            padding: 18px 0;
+            position: relative;
+        }
+
+        .edu-dot-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+            padding-top: 3px;
+        }
+
+        .edu-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-dim);
+            background: var(--bg-color);
+            flex-shrink: 0;
+            transition: 0.3s;
+        }
+
+        .edu-dot--active {
+            border-color: var(--primary);
+            background: var(--primary);
+            box-shadow: 0 0 14px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: glowPulse 2s infinite;
+        }
+
+        .edu-content {
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 14px;
+            padding: 16px 22px;
+            flex: 1;
+            transition: 0.3s;
+        }
+
+        .edu-content:hover {
+            border-color: var(--primary-dim);
+            background: rgba(255, 215, 0, 0.06);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.08);
+            transform: translateX(4px);
+        }
+
+        .edu-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(255, 215, 0, 0.08);
+            color: var(--primary-dim);
+            border: 1px solid var(--primary-dim);
+            border-radius: 20px;
+            padding: 2px 12px;
+            margin-bottom: 8px;
+        }
+
+        .edu-badge--active {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        .edu-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 4px 0;
+        }
+
+        .edu-sub {
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0;
+        }
+
+
+        /* --- Education Section --- */
+        .edu-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .edu-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            letter-spacing: 2px;
+        }
+
+        .edu-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding-left: 10px;
+        }
+
+        .edu-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            position: relative;
+        }
+
+        .edu-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 18px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: linear-gradient(to bottom, var(--primary-dim), transparent);
+        }
+
+        .edu-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-dim);
+            background: var(--bg-color);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .edu-dot--active {
+            border-color: var(--primary);
+            background: var(--primary);
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+            animation: glowPulse 2s infinite;
+        }
+
+        .edu-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .edu-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(255, 215, 0, 0.08);
+            color: var(--primary-dim);
+            border: 1px solid var(--primary-dim);
+            border-radius: 20px;
+            padding: 2px 10px;
+            width: fit-content;
+        }
+
+        .edu-badge--active {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .edu-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .edu-sub {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+
         /* --- Profile Photo --- */
         @keyframes rotateBorder {
             0% {
@@ -747,6 +977,14 @@
                     d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-11.174l4.623 5.462zm5.377 2.738l-5.364-6.338 11.364 13.671h-21.995l5.995-7.333zm5.378-2.738l4.622-5.461v11.175l-4.622-5.714zm-1.696-2.014l-5.682 6.716-5.682-6.716-5.941 7.086v-13h23.246v13l-5.941-7.086z" />
             </svg>
         </a>
+        <a href="https://www.instagram.com/sujanacharya12" class="nav-icon nav-icon--insta" target="_blank"
+            title="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    fill="#ffd700" />
+            </svg>
+        </a>
     </div>
 
     <div class="container">
@@ -773,6 +1011,35 @@
                 Whether it's predicting stock markets or building AI for healthcare, I aim to merge code with
                 creativity.
             </p>
+        </div>
+
+        <div class="education-section">
+            <h2 class="edu-heading">🎓 EDUCATION</h2>
+            <div class="edu-timeline">
+
+                <div class="edu-item">
+                    <div class="edu-dot-wrap">
+                        <div class="edu-dot"></div>
+                    </div>
+                    <div class="edu-content">
+                        <span class="edu-badge">Completed</span>
+                        <p class="edu-name">+2 Graduate</p>
+                        <p class="edu-sub">Higher Secondary Education &middot; Science Faculty</p>
+                    </div>
+                </div>
+
+                <div class="edu-item">
+                    <div class="edu-dot-wrap">
+                        <div class="edu-dot edu-dot--active"></div>
+                    </div>
+                    <div class="edu-content">
+                        <span class="edu-badge edu-badge--active">&#9679; Currently Enrolled</span>
+                        <p class="edu-name">Bachelor in Computer Engineering</p>
+                        <p class="edu-sub">Institute of Engineering (IOE) &middot; Undergraduate Student</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
         <section>
