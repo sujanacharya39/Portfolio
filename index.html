@@ -42,8 +42,7 @@
             width: 24px;
             height: 24px;
             pointer-events: none;
-            z-index: 999999;
-            transform: translate(-2px, -2px);
+            z-index: 2147483647; /* Max z-index to stay on top */
             filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
             transition: transform 0.05s linear;
             will-change: transform;
@@ -627,12 +626,6 @@
 
 <body>
 
-    <!-- Custom Gold Cursor -->
-    <svg id="custom-cursor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 2 L4 20 L8.5 15.5 L12 22 L14 21 L10.5 14.5 L17 14.5 Z"
-              fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round"/>
-    </svg>
-
     <canvas id="particle-canvas"></canvas>
 
     <div class="top-nav">
@@ -1045,8 +1038,7 @@
         // --- Custom Gold Cursor ---
         const customCursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', (e) => {
-            customCursor.style.left = e.clientX + 'px';
-            customCursor.style.top  = e.clientY + 'px';
+            customCursor.style.transform = `translate3d(${e.clientX - 2}px, ${e.clientY - 2}px, 0)`;
         });
         document.addEventListener('mouseleave', () => {
             customCursor.style.opacity = '0';
@@ -1056,6 +1048,12 @@
         });
 
     </script>
+
+    <!-- Custom Gold Cursor (Moved to bottom to fix stacking contexts) -->
+    <svg id="custom-cursor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 2 L4 20 L8.5 15.5 L12 22 L14 21 L10.5 14.5 L17 14.5 Z"
+              fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round"/>
+    </svg>
 
 </body>
 
