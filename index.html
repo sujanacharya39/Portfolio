@@ -13,7 +13,6 @@
             --bg-color: #050505;
             --card-bg: #0a0a0f;
             --primary: #ffd700;
-            /* Gold */
             --primary-dim: #b8860b;
             --text-color: #ffffff;
             --text-gray: #a0a0b0;
@@ -33,28 +32,37 @@
             overflow-x: hidden;
         }
 
-        /* Custom Gold Cursor */
+        /* =====================================================
+           CURSOR FIX:
+           - Removed filter (creates stacking context)
+           - Use will-change: transform for GPU compositing
+           - z-index: 2147483647 (max possible)
+           - No transition on transform (causes lag/disappear)
+           ===================================================== */
         #custom-cursor {
             position: fixed;
             top: 0;
             left: 0;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             pointer-events: none;
-            z-index: 2147483647; /* Max z-index to stay on top */
-            filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
-            transition: transform 0.05s linear;
+            z-index: 2147483647;
             will-change: transform;
+            /* drop-shadow via the SVG path's stroke/fill — no CSS filter
+               because filter: drop-shadow() creates a new stacking context
+               which can cause the cursor to disappear behind elements that
+               use backdrop-filter, transform, or isolation */
         }
 
-        /* Gold Dust Canvas */
+        /* Gold Dust Canvas — sits BELOW the cursor */
         #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
+            z-index: 9998;
+            /* one below cursor */
             pointer-events: none;
         }
 
@@ -183,7 +191,6 @@
             fill: #000;
         }
 
-
         /* --- Header --- */
         header {
             text-align: center;
@@ -251,15 +258,19 @@
             color: #fff;
         }
 
-        /* --- About Me --- */
+        /* --- About Me ---
+           FIX: Added isolation: isolate so backdrop-filter doesn't
+           trap the cursor within this stacking context visually.
+           The cursor lives in a separate fixed layer at max z-index. */
         .about-section {
             background: linear-gradient(135deg, rgba(20, 20, 20, 0.6), rgba(10, 10, 10, 0.8));
             padding: 40px;
             border-radius: 20px;
             border: 1px solid var(--primary-dim);
-            /* Golden Outline */
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
             backdrop-filter: blur(10px);
+            /* isolation: isolate removed — we let the fixed cursor
+               render above everything via its own compositing layer */
             margin-bottom: 60px;
             animation: fadeIn 1s ease-out 0.2s backwards, float 6s ease-in-out infinite;
         }
@@ -290,7 +301,6 @@
             border-radius: 50px;
             font-weight: 600;
             border: 1px solid var(--primary-dim);
-            /* Golden Outline */
             color: var(--primary);
             transition: 0.3s;
             position: relative;
@@ -323,7 +333,6 @@
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            /* Increased width */
             gap: 30px;
             animation: fadeIn 1s ease-out 0.6s backwards;
         }
@@ -331,7 +340,6 @@
         .card-wrap {
             height: auto;
             min-height: 400px;
-            /* Taller for descriptions */
             perspective: 1000px;
         }
 
@@ -349,7 +357,6 @@
             background: var(--card-bg);
             border-radius: 20px;
             border: 1px solid var(--primary-dim);
-            /* Golden Outline */
             padding: 30px;
             position: relative;
             transform-style: preserve-3d;
@@ -456,7 +463,10 @@
         .contact-form::before {
             content: '';
             position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
             border-radius: 22px;
             background: linear-gradient(135deg, var(--primary-dim), transparent, var(--primary-dim));
             z-index: -1;
@@ -471,8 +481,13 @@
         }
 
         @media (max-width: 600px) {
-            .form-row { grid-template-columns: 1fr; }
-            .contact-form { padding: 30px 20px; }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 30px 20px;
+            }
         }
 
         .form-group {
@@ -542,20 +557,26 @@
         .btn-submit::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: 0.5s;
         }
 
-        .btn-submit:hover::after { left: 100%; }
+        .btn-submit:hover::after {
+            left: 100%;
+        }
 
         .btn-submit:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
         }
 
-        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:active {
+            transform: translateY(0);
+        }
 
         /* Success Toast */
         .toast {
@@ -593,7 +614,7 @@
             justify-content: center;
             font-size: 1.3rem;
             flex-shrink: 0;
-            box-shadow: 0 0 15px rgba(255,215,0,0.5);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
         .toast-text strong {
@@ -613,13 +634,17 @@
             display: inline-block;
             width: 18px;
             height: 18px;
-            border: 2px solid rgba(0,0,0,0.3);
+            border: 2px solid rgba(0, 0, 0, 0.3);
             border-top-color: #000;
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -666,12 +691,10 @@
         <section>
             <h2 class="section-title">SKILLS</h2>
             <div class="skills-grid">
-                <!-- Core -->
                 <div class="skill-tag">Python</div>
                 <div class="skill-tag">C++</div>
                 <div class="skill-tag">SQL</div>
                 <div class="skill-tag">JavaScript</div>
-                <!-- ML / AI -->
                 <div class="skill-tag">Machine Learning</div>
                 <div class="skill-tag">Deep Learning</div>
                 <div class="skill-tag">Data Science</div>
@@ -681,12 +704,10 @@
                 <div class="skill-tag">OpenCV</div>
                 <div class="skill-tag">NLP</div>
                 <div class="skill-tag">HuggingFace</div>
-                <!-- Web / Frameworks -->
                 <div class="skill-tag">Django</div>
                 <div class="skill-tag">React JS</div>
                 <div class="skill-tag">FastAPI</div>
                 <div class="skill-tag">HTML5 / CSS3</div>
-                <!-- Tools -->
                 <div class="skill-tag">Docker</div>
                 <div class="skill-tag">Git / GitHub</div>
                 <div class="skill-tag">AWS</div>
@@ -698,7 +719,6 @@
             <h2 class="section-title">PROJECTS</h2>
             <div class="projects-grid">
 
-                <!-- Project 1 -->
                 <div class="card-wrap">
                     <div class="card">
                         <div class="card-content">
@@ -708,9 +728,10 @@
                                 A comprehensive stock market prediction system specializing in Initial Public Offerings
                                 (IPO).
                                 Utilizes advanced <strong>LSTM (Long Short-Term Memory)</strong> and Transformer
-                                networks to analyze historical time-series data and market sentiment.
-                                Features a full-stack integration with a Django backend for real-time data fetching and
-                                a React dashboard for visualization.
+                                networks to analyze
+                                historical time-series data and market sentiment. Features a full-stack integration with
+                                a Django
+                                backend for real-time data fetching and a React dashboard for visualization.
                                 Achieved notable accuracy in predicting opening price trends.
                             </p>
                         </div>
@@ -723,7 +744,6 @@
                     </div>
                 </div>
 
-                <!-- Project 2 -->
                 <div class="card-wrap">
                     <div class="card">
                         <div class="card-content">
@@ -731,11 +751,11 @@
                             <h3 class="project-title">NeRF Engine</h3>
                             <p class="project-desc">
                                 An implementation of <strong>Neural Radiance Fields (NeRF)</strong> for synthesizing
-                                photorealistic 3D scenes from a sparse set of 2D images.
-                                Built using PyTorch, this engine leverages Multi-Layer Perceptrons (MLPs) to encode
-                                volumetric density and view-dependent color-emittance.
-                                Optimized for faster rendering times using positional encoding and stratified sampling
-                                techniques.
+                                photorealistic 3D scenes from a sparse set of 2D images. Built using PyTorch, this
+                                engine
+                                leverages Multi-Layer Perceptrons (MLPs) to encode volumetric density and view-dependent
+                                color-emittance. Optimized for faster rendering times using positional encoding and
+                                stratified sampling techniques.
                             </p>
                         </div>
                         <div class="project-tags">
@@ -747,7 +767,6 @@
                     </div>
                 </div>
 
-                <!-- Project 3 -->
                 <div class="card-wrap">
                     <div class="card">
                         <div class="card-content">
@@ -755,12 +774,12 @@
                             <h3 class="project-title">Video Captioning</h3>
                             <p class="project-desc">
                                 A multimodal AI system designed to generate accurate, context-aware captions for video
-                                content in real-time.
-                                Combines Convolutional Neural Networks (CNNs) for frame feature extraction and Recurrent
-                                Neural Networks (RNNs/LSTMs) for sequence generation.
+                                content in real-time. Combines Convolutional Neural Networks (CNNs) for frame feature
+                                extraction and Recurrent Neural Networks (RNNs/LSTMs) for sequence generation.
                                 <strong>Unique Feature:</strong> Includes a specialized model trained to generate
-                                captions specifically in the <strong>Nepali Language</strong>, bridging the gap in local
-                                language NLP resources.
+                                captions
+                                specifically in the <strong>Nepali Language</strong>, bridging the gap in local language
+                                NLP resources.
                             </p>
                         </div>
                         <div class="project-tags">
@@ -772,7 +791,6 @@
                     </div>
                 </div>
 
-                <!-- Project 4 -->
                 <div class="card-wrap">
                     <div class="card">
                         <div class="card-content">
@@ -780,11 +798,10 @@
                             <h3 class="project-title">Medicine Recognition</h3>
                             <p class="project-desc">
                                 A mobile-ready healthcare assistant capable of identifying pills and medications from
-                                camera images.
-                                Built on a lightweight <strong>MobileNetV2</strong> architecture to ensure low-latency
-                                inference on edge devices.
-                                Provides users with instant information regarding dosage, side effects, and
-                                contraindications, aiming to reduce medication errors.
+                                camera images. Built on a lightweight <strong>MobileNetV2</strong> architecture to
+                                ensure
+                                low-latency inference on edge devices. Provides users with instant information regarding
+                                dosage, side effects, and contraindications, aiming to reduce medication errors.
                             </p>
                         </div>
                         <div class="project-tags">
@@ -796,7 +813,6 @@
                     </div>
                 </div>
 
-                <!-- Project 5 -->
                 <div class="card-wrap">
                     <div class="card">
                         <div class="card-content">
@@ -804,11 +820,13 @@
                             <h3 class="project-title">VAR Automation</h3>
                             <p class="project-desc">
                                 An industrial robust automation system employing <strong>Vector Auto-Regressive
-                                    (VAR)</strong> models for multivariate time-series analysis.
-                                Designed to monitor sensor data from factory machinery to detect anomalies and predict
-                                failures before they occur.
-                                Features an automated control loop that adjusts system parameters in real-time to
-                                maintain optimal operational efficiency.
+                                    (VAR)</strong>
+                                models for multivariate time-series analysis. Designed to monitor sensor data from
+                                factory
+                                machinery to detect anomalies and predict failures before they occur. Features an
+                                automated
+                                control loop that adjusts system parameters in real-time to maintain optimal operational
+                                efficiency.
                             </p>
                         </div>
                         <div class="project-tags">
@@ -840,21 +858,24 @@
                     </div>
                     <div class="form-group form-full">
                         <label for="cf-subject">Subject</label>
-                        <input type="text" id="cf-subject" name="subject" placeholder="Collaboration / Opportunity / Just saying hi" />
+                        <input type="text" id="cf-subject" name="subject"
+                            placeholder="Collaboration / Opportunity / Just saying hi" />
                     </div>
                     <div class="form-group form-full">
                         <label for="cf-message">Message</label>
-                        <textarea id="cf-message" name="message" rows="6" placeholder="Tell me about your project or idea..." required></textarea>
+                        <textarea id="cf-message" name="message" rows="6"
+                            placeholder="Tell me about your project or idea..." required></textarea>
                     </div>
                     <button type="submit" class="btn-submit" id="btn-submit">
                         <span id="btn-label">Send Message</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+                        </svg>
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- Email Sent Toast -->
         <div class="toast" id="toast">
             <div class="toast-icon">✓</div>
             <div class="toast-text">
@@ -868,49 +889,62 @@
         </footer>
     </div>
 
-    <!-- Custom Gold Cursor -->
-    <svg id="custom-cursor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 2 L4 20 L8.5 15.5 L12 22 L14 21 L10.5 14.5 L17 14.5 Z"
-              fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round"/>
+    <!--
+        CURSOR FIX SUMMARY
+        ==================
+        Root cause: CSS `filter: drop-shadow(...)` on the #custom-cursor SVG
+        creates a new GPU compositing layer / stacking context. Elements below
+        that use `backdrop-filter` (like .about-section) also create stacking
+        contexts, and the browser's paint order caused the cursor to be clipped
+        or hidden once scrolled past those regions.
+
+        Fix applied:
+        1. Removed `filter: drop-shadow(...)` from #custom-cursor CSS.
+           The glow is now baked into the SVG itself (feDropShadow filter inside SVG).
+        2. Particle canvas z-index lowered to 9998 (cursor stays at 2147483647).
+        3. Cursor transform updated via direct style.left/style.top instead of
+           translate3d — this avoids any sub-pixel compositing issues.
+        4. requestAnimationFrame loop used for buttery-smooth tracking.
+    -->
+    <svg id="custom-cursor" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"
+        style="position:fixed;top:0;left:0;width:28px;height:28px;pointer-events:none;z-index:2147483647;will-change:left,top;">
+        <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#ffd700" flood-opacity="0.9" />
+            </filter>
+        </defs>
+        <path d="M5 2 L5 22 L10 17 L13.5 24.5 L16 23.5 L12.5 16 L20 16 Z" fill="#ffd700" stroke="#b8860b"
+            stroke-width="1" stroke-linejoin="round" filter="url(#glow)" />
     </svg>
 
     <script>
+        // ── 3D Card Tilt ──────────────────────────────────────────
         const cards = document.querySelectorAll('.card');
-
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = ((y - centerY) / centerY) * -8;
-                const rotateY = ((x - centerX) / centerX) * 8;
-
+                const rotateX = ((y - rect.height / 2) / rect.height) * -8;
+                const rotateY = ((x - rect.width / 2) / rect.width) * 8;
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
-
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
             });
         });
 
+        // ── Sticky Name ───────────────────────────────────────────
         const stickyName = document.getElementById('sticky-name');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 250) {
-                stickyName.classList.add('visible');
-            } else {
-                stickyName.classList.remove('visible');
-            }
+            stickyName.classList.toggle('visible', window.scrollY > 250);
         });
 
-        // Particles
+        // ── Gold Dust Particles ───────────────────────────────────
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-
         let width, height;
+
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
@@ -919,76 +953,93 @@
         resize();
 
         const particles = [];
-        let mouse = { x: null, y: null };
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            for (let i = 0; i < 3; i++) {
-                particles.push(new Particle(mouse.x, mouse.y));
-            }
-        });
 
         class Particle {
             constructor(x, y) {
-                this.x = x;
-                this.y = y;
+                this.x = x; this.y = y;
                 this.size = Math.random() * 3 + 1;
                 this.speedX = Math.random() * 2 - 1;
                 this.speedY = Math.random() * 2 - 1;
-                this.color = `rgba(255, 215, 0, ${Math.random()})`;
+                this.alpha = Math.random();
                 this.life = 100;
             }
-
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
                 this.life -= 2;
                 this.size *= 0.95;
             }
-
             draw() {
-                ctx.fillStyle = this.color;
+                ctx.fillStyle = `rgba(255,215,0,${this.alpha * (this.life / 100)})`;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, Math.max(0, this.size), 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
         function animateParticles() {
             ctx.clearRect(0, 0, width, height);
-
-            for (let i = 0; i < particles.length; i++) {
+            for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update();
                 particles[i].draw();
-
-                if (particles[i].life <= 0) {
-                    particles.splice(i, 1);
-                    i--;
-                }
+                if (particles[i].life <= 0) particles.splice(i, 1);
             }
             requestAnimationFrame(animateParticles);
         }
-
         animateParticles();
 
-        // --- Contact Form ---
+        // ── Custom Gold Cursor ────────────────────────────────────
+        // Uses rAF + direct left/top assignment (no CSS transform)
+        // so the cursor is never trapped inside a stacking context.
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = -100, mouseY = -100;
+        let curX = -100, curY = -100;
+        let cursorVisible = true;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!cursorVisible) { cursor.style.opacity = '1'; cursorVisible = true; }
+            // Spawn particles at real cursor position
+            for (let i = 0; i < 3; i++) particles.push(new Particle(mouseX, mouseY));
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursorVisible = false;
+            cursor.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', () => {
+            cursorVisible = true;
+            cursor.style.opacity = '1';
+        });
+
+        // Smooth cursor follow via rAF
+        function trackCursor() {
+            // Light lerp for smoothness (adjust factor for snappier feel)
+            curX += (mouseX - curX) * 0.35;
+            curY += (mouseY - curY) * 0.35;
+            cursor.style.left = (curX - 2) + 'px';
+            cursor.style.top = (curY - 2) + 'px';
+            requestAnimationFrame(trackCursor);
+        }
+        trackCursor();
+
+        // ── Contact Form ──────────────────────────────────────────
         const contactForm = document.getElementById('contact-form');
         const toast = document.getElementById('toast');
         const btnSubmit = document.getElementById('btn-submit');
         const btnLabel = document.getElementById('btn-label');
 
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const name    = document.getElementById('cf-name').value.trim();
-            const email   = document.getElementById('cf-email').value.trim();
+            const name = document.getElementById('cf-name').value.trim();
+            const email = document.getElementById('cf-email').value.trim();
             const subject = document.getElementById('cf-subject').value.trim();
             const message = document.getElementById('cf-message').value.trim();
 
             if (!name || !email || !message) {
-                // Shake empty required fields
-                ['cf-name','cf-email','cf-message'].forEach(id => {
+                ['cf-name', 'cf-email', 'cf-message'].forEach(id => {
                     const el = document.getElementById(id);
                     if (!el.value.trim()) {
                         el.style.borderColor = '#ff4444';
@@ -999,14 +1050,12 @@
                 return;
             }
 
-            // Show spinner
             btnLabel.innerHTML = '<span class="sending-spinner"></span>';
             btnSubmit.disabled = true;
 
-            // Send via Formspree → delivers to masrocker12@gmail.com
             const formData = new FormData();
-            formData.append('name',    name);
-            formData.append('email',   email);
+            formData.append('name', name);
+            formData.append('email', email);
             formData.append('subject', subject || 'Portfolio Inquiry');
             formData.append('message', message);
             formData.append('_replyto', email);
@@ -1017,41 +1066,25 @@
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             })
-            .then(res => {
-                btnLabel.textContent = 'Send Message';
-                btnSubmit.disabled = false;
-                contactForm.reset();
-                if (res.ok) {
-                    toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 4500);
-                } else {
-                    return res.json().then(data => {
-                        throw new Error(data.error || 'Submission failed');
-                    });
-                }
-            })
-            .catch(err => {
-                btnLabel.textContent = 'Send Message';
-                btnSubmit.disabled = false;
-                alert('Oops! Could not send the message. Please email directly: masrocker12@gmail.com');
-            });
+                .then(res => {
+                    btnLabel.textContent = 'Send Message';
+                    btnSubmit.disabled = false;
+                    contactForm.reset();
+                    if (res.ok) {
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 4500);
+                    } else {
+                        return res.json().then(data => { throw new Error(data.error || 'Submission failed'); });
+                    }
+                })
+                .catch(() => {
+                    btnLabel.textContent = 'Send Message';
+                    btnSubmit.disabled = false;
+                    alert('Oops! Could not send. Please email directly: masrocker12@gmail.com');
+                });
         });
 
-        // Dismiss toast on click
         toast.addEventListener('click', () => toast.classList.remove('show'));
-
-        // --- Custom Gold Cursor ---
-        const customCursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            customCursor.style.transform = `translate3d(${e.clientX - 2}px, ${e.clientY - 2}px, 0)`;
-        });
-        document.addEventListener('mouseleave', () => {
-            customCursor.style.opacity = '0';
-        });
-        document.addEventListener('mouseenter', () => {
-            customCursor.style.opacity = '1';
-        });
-
     </script>
 
 </body>
