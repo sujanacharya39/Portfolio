@@ -25,11 +25,15 @@
             cursor: none !important;
         }
 
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow-x: hidden;
         }
 
         /* =====================================================
@@ -1398,6 +1402,9 @@
             }
             #custom-cursor, #particle-canvas {
                 display: none !important;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
             .top-nav {
                 top: 20px;
