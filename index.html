@@ -780,6 +780,7 @@
             display: block;
             background: linear-gradient(to right, #fff 0%, #e8d5a0 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -787,6 +788,7 @@
             display: block;
             background: linear-gradient(to right, #ffd700 0%, #b8860b 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: none;
         }
@@ -1391,9 +1393,15 @@
 
         /* Mobile View Media Queries */
         @media (max-width: 768px) {
+            * {
+                cursor: auto !important;
+            }
+            #custom-cursor, #particle-canvas {
+                display: none !important;
+            }
             .top-nav {
-                top: auto;
-                bottom: 20px;
+                top: 20px;
+                bottom: auto;
                 left: 50%;
                 transform: translateX(-50%);
                 right: auto;
