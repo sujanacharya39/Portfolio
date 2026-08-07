@@ -14,15 +14,17 @@ Welcome to my **Portfolio Repository**. This repository contains the source code
 ## 🧠 Projects (The Good Stuff)
 - **Maximum IPO**: A comprehensive stock market prediction system using LSTM and Transformers, integrated with a Django backend and React dashboard.
 - **NeRF Engine**: An implementation of Neural Radiance Fields (NeRF) for synthesizing 3D scenes using PyTorch and MLP techniques.
-- **Video Captioning**: A multimodal AI system combining CNNs and RNNs/LSTMs, featuring a specialized model for the Nepali Language.
-- **Medicine Recognition**: A mobile-ready healthcare assistant using MobileNetV2 to identify pills and provide medical information.
-- **VAR Automation**: An industrial automation system using Vector Auto-Regressive (VAR) models for anomaly detection and predictive maintenance.
+- **Video Captioning** ([GitHub](https://github.com/sujanacharya39/Video-Captioning-In-Nepali-Using-Transformers.git)): A multimodal AI system combining CNNs and RNNs/LSTMs, featuring a specialized model for the Nepali Language.
+- **NEPSE Quantitative Trading Platform** ([GitHub](https://github.com/sujanacharya39/nepse-quantitative-trading)): A professional-grade quant trading system for the Nepal Stock Exchange featuring HMM market-regime detection, a PyTorch Bi-GRU-Attention forecaster, DQN-based RL trade execution, and Black-Litterman portfolio optimization.
 
 ## 🛠️ Tech Stack & Skills
-- **Core Web**: HTML5, CSS3, Vanilla JS
-- **Languages**: Python, C, C++, SQL, JavaScript
-- **ML & AI**: PyTorch, TensorFlow, Scikit-Learn, HuggingFace, OpenCV, Deep Learning, NLP
-- **Frameworks & Tools**: Django, React JS, FastAPI, Docker, Git / GitHub, AWS, Linux
+**Programming Languages**: Python, C, C++, JavaScript, SQL
+**Data Science Libraries**: NumPy, Pandas, Matplotlib, Seaborn
+**AI / ML Frameworks**: PyTorch, TensorFlow, Scikit-Learn, HuggingFace, OpenCV
+**Web Frameworks**: FastAPI
+**Databases**: MongoDB, MySQL
+**Core Domains**: Machine Learning, Deep Learning, Computer Vision, NLP
+**Tools & Platforms**: Git, GitHub, Docker, AWS
 
 ## 📬 Contact
 - **Email**: [acharyasujan104@gmail.com](mailto:acharyasujan104@gmail.com)
